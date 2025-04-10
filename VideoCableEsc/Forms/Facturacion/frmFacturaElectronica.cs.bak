@@ -1,0 +1,1121 @@
+﻿using CapaNegocio;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using CapaEntidades;
+using VideoCableEsc.wsaa;
+using VideoCableEsc.wsfev1;
+using System.Security.Cryptography.Pkcs;
+using System.Configuration;
+using CapaEntidades.Enum;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
+using ZXing;
+using ZXing.Common;
+using ZXing.Rendering;
+using Paragraph = Xceed.Document.NET.Paragraph;
+using Image = Xceed.Document.NET.Image;
+using Spire.Doc.Fields;
+using Spire.Doc;
+using System.IO;
+using CapaEntidades.Entidades;
+using Newtonsoft.Json;
+
+namespace SistGestionEsc
+{
+    public partial class frmFacturaElectronica : Form
+    {
+
+        #region URLs
+
+        //Las URLs del WSAA son:
+        //TESTING: https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl
+        //PRODUCCION: https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl
+
+        //Las URLs del WSFEv1 son:
+        //TESTING: https://wswhomo.afip.gov.ar/wsfev1/service.asmx?wsld 
+        //PRODUCCION: https://servicios1.afip.gov.ar/wsfev1/service.asmx?wsld 
+
+        #endregion
+
+        private const string DEFAULT_URLWSAAWSDL = "https://wsaa.afip.gov.ar/ws/services/LoginCms?wsdl", DEFAULT_SERVICIO = "wsfe";
+
+        //string DEFAULT_CERTSIGNER = SeteosStatic.RutaCertificado;//"D:\\CABL\\Facturacion Electronica\\FETesting.p12";
+        private const bool DEFAULT_VERBOSE = true;
+        public string bocaVenta;
+        public List<int> ListFacturas;
+        private int IdFacturaVenta;
+        private List<ResultadoOperacion> Result = new List<ResultadoOperacion>();
+        private string ruta;
+
+
+        private readonly EmpresaNegocio empresaN = new EmpresaNegocio();
+
+        private readonly FacturasVentaNegocio facturasVentaNegocio = new FacturasVentaNegocio();
+
+        private readonly FacturasElectronicasNegocio facturasElectronicasNegocio = new FacturasElectronicasNegocio();
+        private class ResultadoOperacion
+        {
+            public int IdResultado, IdFact;
+            public string DescripcionResultado, CAE, FechaExpiracionCAE, NCompFact, Observacion;
+        }
+
+        public frmFacturaElectronica() { InitializeComponent(); }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (int f in ListFacturas) lblFacturasSeleccionadas.Text = lblFacturasSeleccionadas.Text + f;
+
+                ConsultarEstadoServidor();
+                Empresa emp = AuxiliaresNegocio.ObtenenerEmpresa();
+                ruta = emp.RutaCertificado;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        #region FECAESolicitar
+
+        private bool FECAESolicitar(string ruta)
+        {
+            try
+            {
+                var ventaN = new VentaNegocio();
+                var ws = new ServiceSoapClient();
+                var auth = new FEAuthRequest();
+                AutenticacionesWSAA autenticacion = ventaN.ObtenerUltimaAutorizacionWSAA();
+                Empresa Emp = AuxiliaresNegocio.ObtenenerEmpresa();
+                //Consumo el WSAA para obtener los datos Tocken y Sign
+                var ticket = new LoginTicket();
+                if (autenticacion == null)
+                {
+                    var autent = new AutenticacionesWSAA();
+                    string resultado = ticket.ObtenerLoginTicketResponse(DEFAULT_SERVICIO, DEFAULT_URLWSAAWSDL, ruta, DEFAULT_VERBOSE, Emp.SerialCertificado);
+                    auth.Token = ticket.Token;
+                    auth.Sign = ticket.Sign;
+                    //Guardo el ticket en BD
+                    autent.Sign = ticket.Sign;
+                    autent.Token = ticket.Token;
+                    autent.FechaAutorizacion = ticket.GenerationTime;
+                    autent.FechaExpiracion = ticket.ExpirationTime;
+                    autent.IdEmpresa = 1;
+                    ventaN.NuevaAutenticacionWSAA(autent);
+                }
+                else
+                {
+                    auth.Token = autenticacion.Token;
+                    auth.Sign = autenticacion.Sign;
+                }
+
+                auth.Cuit = Convert.ToInt64(Emp.CUIT.Replace("-", ""));
+
+                //DEFINIMOS LA CABECERA DE LA FACTURA
+                var fecabreq = new FECAECabRequest { CantReg = ListFacturas.Count };
+
+                //DEFINIMOS EL CUERPO DE LA FACTURA OSEA EL DETALLE
+                var ListDetalle = new List<FECAEDetRequest>();
+
+                //wsfev1.FECAEDetRequest[] detalle = new wsfev1.FECAEDetRequest[ListFacturas.Count];
+                int canta = 1, cantb = 1;
+
+                //RECORREMOS EL LISTADO DE FACTURAS SELECCIONADAS, EN ESTE CASO SIMPRE VA A SER UNO
+                foreach (int i in ListFacturas)
+                {
+                    IdFacturaVenta = i;
+                    FacturasVenta Factura = ventaN.ObtenerFactura(IdFacturaVenta);
+                    var listcbteasoc = new List<CbteAsoc>();
+
+                    if (Factura.IdTipoDocumento == 1) //Fact.Vta
+                    {
+                        if (Factura.IdTipoFactura == 1) fecabreq.CbteTipo = 1;
+                        else if (Factura.IdTipoFactura == 2) fecabreq.CbteTipo = 6;
+                        else fecabreq.CbteTipo = 11;
+                    }
+                    else if (Factura.IdTipoDocumento == 2) //Nota  de Crédito AGREGAR DOCUMENTO ASOCIADO AL FINAL DE LA FACTURA
+                    {
+                        var cbte = new CbteAsoc { Nro = Convert.ToInt64(Factura.NroCompFactReferencia), PtoVta = Convert.ToInt32(Factura.BVReferencia) };
+
+                        if (Factura.IdTipoFactura == 1)
+                        {
+                            fecabreq.CbteTipo = 3; //A
+                            cbte.Tipo = 1; //Factura Vta A
+                        }
+                        else if (Factura.IdTipoFactura == 2)
+                        {
+                            fecabreq.CbteTipo = 8; //B
+                            cbte.Tipo = 6; //Factura Vta B
+                        }
+                        else
+                        {
+                            fecabreq.CbteTipo = 13; //C
+                            cbte.Tipo = 11; //Factura Vta C
+                        }
+
+                        listcbteasoc.Add(cbte);
+                    }
+                    else if (Factura.IdTipoDocumento == 3) //Nota de Débito AGREGAR DOCUMENTO ASOCIADO AL FINAL DE LA FACTURA
+                    {
+                        var cbte = new CbteAsoc { Nro = Convert.ToInt64(Factura.NroCompFactReferencia), PtoVta = Convert.ToInt32(Factura.BVReferencia) };
+                        if (Factura.IdTipoFactura == 1)
+                        {
+                            fecabreq.CbteTipo = 2; //A
+                            cbte.Tipo = 1; //Factura Vta A
+                        }
+                        else if (Factura.IdTipoFactura == 2)
+                        {
+                            fecabreq.CbteTipo = 7; //B
+                            cbte.Tipo = 6; //Factura Vta B
+                        }
+                        else
+                        {
+                            fecabreq.CbteTipo = 12; //C
+                            cbte.Tipo = 11; //Factura Vta C
+                        }
+
+                        listcbteasoc.Add(cbte);
+                    }
+
+                    fecabreq.PtoVta = Convert.ToInt32(bocaVenta);
+
+                    var fedetreq = new FECAEDetRequest();
+                    if (listcbteasoc.Count > 0) fedetreq.CbtesAsoc = listcbteasoc.ToArray();
+
+                    fedetreq.Concepto = Factura.IdConceptoFactura;
+                    var clienteN = new ClienteNegocio();
+                    VistaClientes Cliente = clienteN.ObtenerVCliporNroCli(Factura.ClientesCajasDistribucionesServicios.ClienteCajaDistribucionServicioId);
+
+                    if (Cliente.Nro_Doc != "0")
+                    {
+                        if (Cliente.TipoDocumento == "CUIT")
+                        {
+                            fedetreq.DocTipo = 80; //80: CUIT 66: DNI  99: Otro
+                            fedetreq.DocNro = Convert.ToInt64(Cliente.Cuit.Replace("-", ""));
+                        }
+                        else if (Cliente.TipoDocumento == "DNI")
+                        {
+                            fedetreq.DocTipo = 96;
+                            fedetreq.DocNro = Convert.ToInt64(Cliente.Nro_Doc);
+                        }
+                        else if (Cliente.TipoDocumento == "CUIL")
+                        {
+                            fedetreq.DocTipo = 86;
+                            fedetreq.DocNro = Convert.ToInt64(Cliente.Nro_Doc);
+                        }
+                        else if (Cliente.TipoDocumento == "LE")
+                        {
+                            fedetreq.DocTipo = 89;
+                            fedetreq.DocNro = Convert.ToInt64(Cliente.Nro_Doc);
+                        }
+                        else if (Cliente.TipoDocumento == "LC")
+                        {
+                            fedetreq.DocTipo = 90;
+                            fedetreq.DocNro = Convert.ToInt64(Cliente.Nro_Doc);
+                        }
+                    }
+                    else
+                    {
+                        fedetreq.DocTipo = 99;
+                        fedetreq.DocNro = 0;
+                    }
+
+                    //RECUPERA DE LA AFIP EL ULTIMO COMPROBANTE AUTORIZADO Y
+                    //LE SUMA UNO AL NUMERO DEL COMPRONTE QUE SE VA A REGISTRAR EN LA AFIP
+                    FERecuperaLastCbteResponse ultimoaut = ws.FECompUltimoAutorizado(auth, Convert.ToInt32(bocaVenta), fecabreq.CbteTipo);
+
+                    if (Factura.IdTipoFactura == 1)
+                    {
+
+                        fedetreq.CbteDesde = ultimoaut.CbteNro + canta;
+                        fedetreq.CbteHasta = ultimoaut.CbteNro + canta;
+                    }
+                    else if (Factura.IdTipoFactura == 2)
+                    {
+                        fedetreq.CbteDesde = ultimoaut.CbteNro + cantb;
+                        fedetreq.CbteHasta = ultimoaut.CbteNro + cantb;
+                    }
+
+                    VistaLibroIvaVenta LibroIva = ventaN.ObtenerLibroIvaVentasPorIdFactura(Factura.IdFacturaVenta);
+                    VistaTotalesDiscriminadosFactB TotalesFactB = ventaN.ObtenerVistaTotalesDiscriminadosFactBporIdFact(Factura.IdFacturaVenta);
+                    fedetreq.CbteFch = Factura.FechaEmision.Year + Factura.FechaEmision.Month.ToString().PadLeft(2, '0') + Factura.FechaEmision.Day.ToString().PadLeft(2, '0');
+                    if (Factura.IdConceptoFactura != 1)
+                    {
+                        fedetreq.FchServDesde = DateTime.Now.Year + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0');
+                        fedetreq.FchServHasta = DateTime.Now.Year + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0');
+                        fedetreq.FchVtoPago = DateTime.Now.Year + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Day.ToString().PadLeft(2, '0');
+                    }
+
+                    fedetreq.ImpTotal = Convert.ToDouble(Factura.Total);
+                    fedetreq.ImpTotConc = 0;
+                    switch (fecabreq.CbteTipo)
+                    {
+                        case 1:
+                        case 6:
+                        case 11:
+                            fedetreq.ImpTotConc = 0;
+                            fedetreq.ImpNeto = Convert.ToDouble(LibroIva.NetoGravado);
+                            fedetreq.ImpOpEx = Convert.ToDouble(LibroIva.NoGravado);
+                            fedetreq.ImpIVA = Math.Round(Convert.ToDouble(LibroIva.Iva105) + Convert.ToDouble(LibroIva.Iva21), 2, MidpointRounding.AwayFromZero);
+                            break;
+                        case 3:
+                        case 8:
+                        case 13:
+                            fedetreq.ImpTotConc = 0;
+                            fedetreq.ImpNeto = Math.Abs(Convert.ToDouble(LibroIva.NetoGravado));
+                            fedetreq.ImpOpEx = Math.Abs(Convert.ToDouble(LibroIva.NoGravado));
+                            fedetreq.ImpIVA = Math.Abs(Math.Round(Convert.ToDouble(LibroIva.Iva105) + Convert.ToDouble(LibroIva.Iva21), 2, MidpointRounding.AwayFromZero));
+                            break;
+                        case 2:
+                        case 7:
+                        case 12:
+                            fedetreq.ImpTotConc = 0;
+                            fedetreq.ImpNeto = Math.Abs(Convert.ToDouble(LibroIva.NetoGravado));
+                            fedetreq.ImpOpEx = Math.Abs(Convert.ToDouble(LibroIva.NoGravado));
+                            fedetreq.ImpIVA = Math.Abs(Math.Round(Convert.ToDouble(LibroIva.Iva105) + Convert.ToDouble(LibroIva.Iva21), 2, MidpointRounding.AwayFromZero));
+                            break;
+                    }
+
+                    fedetreq.MonId = "PES";
+                    fedetreq.MonCotiz = 1.000;
+
+                    var listiva = new List<AlicIva>();
+                    if (fecabreq.CbteTipo == 1 || fecabreq.CbteTipo == 3 || fecabreq.CbteTipo == 2) //Factura A o NC A no calculo base imponible
+                    {
+                        if (Factura.Subtotal21 != 0)
+                        {
+                            var iva = new AlicIva { BaseImp = Convert.ToDouble(Factura.TotalDescuento21), Id = 5, Importe = Math.Abs(Convert.ToDouble(LibroIva.Iva21)) };
+                            listiva.Add(iva);
+                        }
+
+                        if (Factura.Subtotal105 != 0)
+                        {
+                            var iva = new AlicIva { BaseImp = Convert.ToDouble(Factura.TotalDescuento105), Id = 4, Importe = Math.Abs(Convert.ToDouble(LibroIva.Iva105)) };
+                            listiva.Add(iva);
+                        }
+                    }
+                    else if (fecabreq.CbteTipo == 6 || fecabreq.CbteTipo == 8 || fecabreq.CbteTipo == 7) //Factura B o NC B calculo base imponible
+                    {
+                        var ListDetFact = new List<FacturasVentaDetalle>();
+                        double totaliva21 = 0, totaliva105 = 0, totalnogravado = 0, totalnetogravado = 0, netogravado, importeiva21 = 0, importeiva105 = 0;
+                        if (TotalesFactB.IVA21 != 0)
+                        {
+                            ListDetFact = ventaN.ObtenerFacturaVentaDetallexTipoIvayNroFact(Factura.IdFacturaVenta, 1);
+                            foreach (FacturasVentaDetalle f in ListDetFact) totaliva21 = totaliva21 + Convert.ToDouble(f.TotalArt);
+
+                            var iva = new AlicIva();
+                            double montodescuento = totaliva21 * (Convert.ToDouble(Factura.Descuento) / 100);
+                            netogravado = (totaliva21 - montodescuento) / Convert.ToDouble("1,21");
+                            iva.BaseImp = Math.Round(netogravado, 2);
+                            iva.Id = 5;
+                            //iva.Importe = Math.Round((total - iva.BaseImp - Convert.ToDouble(Factura.TotalDescuento)), 2, MidpointRounding.AwayFromZero);
+                            iva.Importe = Math.Round(iva.BaseImp * Convert.ToDouble("0,21"), 2);
+                            listiva.Add(iva);
+                            importeiva21 = iva.Importe;
+                            totalnetogravado = netogravado;
+                        }
+
+                        if (TotalesFactB.IVA105 != 0)
+                        {
+                            ListDetFact = ventaN.ObtenerFacturaVentaDetallexTipoIvayNroFact(Factura.IdFacturaVenta, 2);
+                            foreach (FacturasVentaDetalle f in ListDetFact) totaliva105 = totaliva105 + Convert.ToDouble(f.TotalArt);
+
+                            var iva = new AlicIva();
+                            double montodescuento = totaliva105 * (Convert.ToDouble(Factura.Descuento) / 100);
+                            netogravado = (totaliva105 - montodescuento) / Convert.ToDouble("1,105");
+                            iva.BaseImp = Math.Round(netogravado, 2);
+                            iva.Id = 4;
+                            //iva.Importe = Math.Round((total - iva.BaseImp - Convert.ToDouble(Factura.TotalDescuento)), 2, MidpointRounding.AwayFromZero);
+                            iva.Importe = Math.Round(iva.BaseImp * Convert.ToDouble("0,105"), 2);
+                            listiva.Add(iva);
+                            importeiva105 = iva.Importe;
+                            totalnetogravado = totalnetogravado + netogravado;
+                        }
+
+                        ListDetFact = ventaN.ObtenerFacturaVentaDetallexTipoIvayNroFact(Factura.IdFacturaVenta, 3);
+                        if (ListDetFact.Count > 0)
+                        {
+                            double total = 0;
+                            foreach (FacturasVentaDetalle f in ListDetFact) total = total + Convert.ToDouble(f.TotalArt);
+
+                            double montodescuento = total * (Convert.ToDouble(Factura.Descuento) / 100);
+                            totalnogravado = total - montodescuento;
+                        }
+
+                        fedetreq.ImpTotConc = Math.Round(totalnogravado, 2);
+                        fedetreq.ImpNeto = Math.Round(totalnetogravado, 2);
+                        fedetreq.ImpIVA = Math.Round(importeiva105 + importeiva21, 2);
+                    }
+
+                    if (listiva.Count > 0)
+                    {
+                        var alic = listiva.ToArray();
+                        fedetreq.Iva = alic;
+                    }
+
+                    ListDetalle.Add(fedetreq);
+
+                    if (Factura.IdTipoFactura == 1) canta = canta + 1;
+                    else if (Factura.IdTipoFactura == 2) cantb = cantb + 1;
+                }
+
+                var detalle = ListDetalle.ToArray();
+                var FECAERequest = new FECAERequest { FeCabReq = fecabreq, FeDetReq = detalle };
+                var Autorizacion = new FECAEResponse();
+
+                Autorizacion = ws.FECAESolicitar(auth, FECAERequest);
+
+                // INICIO COMENTARIO
+                // Esta porción de código muestra los mensajes de devolución de parte de AFIP.
+                // Una "A" significa aprobado, una "R" rechazado.
+                // Luego de estos mensajes salen las devoluciones de errores y observaciones.
+
+                //MessageBox.Show(Autorizacion.FeCabResp.Resultado);
+
+                foreach (FECAEDetResponse res in Autorizacion.FeDetResp.ToList())
+                {
+                    MessageBox.Show(res.Resultado);
+                    if (res.Observaciones == null) continue;
+                    foreach (Obs obs in res.Observaciones) MessageBox.Show(obs.Msg);
+                }
+
+                if (Autorizacion.Errors != null)
+                    foreach (Err r in Autorizacion.Errors.ToList())
+                        MessageBox.Show(r.Code + r.Msg);
+
+                if (Autorizacion.Events != null)
+                    foreach (Evt r in Autorizacion.Events.ToList())
+                        MessageBox.Show(r.Code + r.Msg);
+
+                // FIN COMENTARIO
+
+                var ListaResultados = new List<ResultadoOperacion>();
+                if (Autorizacion.Errors != null)
+                    foreach (Err r in Autorizacion.Errors.ToList())
+                    {
+                        var Resultado = new ResultadoOperacion { IdResultado = 2, DescripcionResultado = r.Msg };
+                        ListaResultados.Add(Resultado);
+                    }
+                else
+
+                    CargarPdf(ListFacturas.First());
+
+                for (var i = 0; i < ListFacturas.Count; i++)
+                    if (Autorizacion.FeDetResp[i].CAE != null)
+                    {
+                        string fecha = Autorizacion.FeDetResp[i].CAEFchVto.Substring(6, 2) + "/" +
+                                       Autorizacion.FeDetResp[i].CAEFchVto.Substring(4, 2) + "/" +
+                                       Autorizacion.FeDetResp[i].CAEFchVto.Substring(0, 4);
+
+                        var Resultado = new ResultadoOperacion
+                        {
+                            IdResultado = 1,
+                            DescripcionResultado = "Aprobado",
+                            CAE = Autorizacion.FeDetResp[i].CAE,
+                            FechaExpiracionCAE = fecha,
+                            NCompFact = Autorizacion.FeDetResp[i].CbteDesde.ToString().PadLeft(8, '0')
+                        };
+
+                        ventaN.ActualizaNroFact(ListFacturas[i], Convert.ToInt32(Resultado.NCompFact), bocaVenta, 1);
+
+                        var FactEl = new FacturasElectronicas
+                        {
+                            CAE = Resultado.CAE,
+                            FechaVtoCAE = Convert.ToDateTime(fecha + " 23:59:59"),
+                            IdFacturaVenta = ListFacturas[i],
+                            NCompFact = Resultado.NCompFact,
+                            Fecha = DateTime.Now
+                        };
+
+                        ventaN.NuevaFacturaElectronica(FactEl);
+
+                        if (Autorizacion.FeDetResp[i].Observaciones != null) Resultado.Observacion = Autorizacion.FeDetResp[i].Observaciones.ToString();
+
+                        ListaResultados.Add(Resultado);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "No se obtuvo el CAE del comprobante" + Environment.NewLine +
+                            "Por favor registre y avise la situación.", "ATENCION", MessageBoxButtons.OK,
+                            MessageBoxIcon.Exclamation);
+                        var Resultado = new ResultadoOperacion
+                        {
+                            IdResultado = 3,
+                            IdFact = ListFacturas[i],
+                            DescripcionResultado =
+                                "Operación completa con errores. Las siguientes facturas fueron rechazadas: " +
+                                Environment.NewLine + Environment.NewLine
+                        };
+
+                        //Error en los datos de la factura
+                        foreach (Obs t in Autorizacion.FeDetResp[i].Observaciones)
+                            if (t != null) Resultado.DescripcionResultado = Resultado.DescripcionResultado + "IdFacturaVenta: " + Resultado.IdFact + "  - " + t.Msg + Environment.NewLine;
+                            else break;
+
+                        ListaResultados.Add(Resultado);
+                        break;
+                    }
+
+                Result = ListaResultados.ToList();
+
+
+                return true;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        #endregion
+
+        #region WSAA
+
+        public class LoginTicket
+        {
+            // Entero de 32 bits sin signo que identifica el requerimiento 
+            public uint UniqueId;
+
+            // Momento en que fue generado el requerimiento 
+            public DateTime GenerationTime;
+
+            // Momento en el que exoira la solicitud 
+            public DateTime ExpirationTime;
+
+            // Identificacion del WSN para el cual se solicita el TA 
+            public string Service;
+
+            // Firma de seguridad recibida en la respuesta 
+            public string Sign;
+
+            // Token de seguridad recibido en la respuesta 
+            public string Token;
+            public XmlDocument XmlLoginTicketRequest, XmlLoginTicketResponse;
+            private string RutaDelCertificadoFirmante;
+            private const string XmlStrLoginTicketRequestTemplate =
+                "<loginTicketRequest><header><uniqueId></uniqueId><generationTime></generationTime><expirationTime></expirationTime></header><service></service></loginTicketRequest>";
+
+            //public String token, sig
+            private static uint _globalUniqueID;
+            public string ObtenerLoginTicketResponse(string argServicio, string argUrlWsaa, string argRutaCertX509Firmante, bool argVerbose, string SerialCert)
+            {
+                try
+                {
+                    RutaDelCertificadoFirmante = argRutaCertX509Firmante;
+                    CertificadosX509Lib.VerboseMode = argVerbose;
+
+                    string cmsFirmadoBase64;
+                    string loginTicketResponse;
+                    //XmlNode xmlNodoSource, xmlNodoDestination;
+                    X509Certificate2 certFirmante;
+
+                    // PASO 1: Genero el Login Ticket Request 
+                    try
+                    {
+                        XmlLoginTicketRequest = new XmlDocument();
+                        XmlLoginTicketRequest.LoadXml(XmlStrLoginTicketRequestTemplate);
+
+                        XmlNode xmlNodoUniqueId = XmlLoginTicketRequest.SelectSingleNode("//uniqueId");
+                        XmlNode xmlNodoGenerationTime = XmlLoginTicketRequest.SelectSingleNode("//generationTime");
+                        XmlNode xmlNodoExpirationTime = XmlLoginTicketRequest.SelectSingleNode("//expirationTime");
+                        XmlNode xmlNodoService = XmlLoginTicketRequest.SelectSingleNode("//service");
+
+                        xmlNodoGenerationTime.InnerText = DateTime.Now.AddMinutes(-10).ToString("s");
+                        xmlNodoExpirationTime.InnerText = DateTime.Now.AddMinutes(+10).ToString("s");
+                        xmlNodoUniqueId.InnerText = Convert.ToString(_globalUniqueID);
+                        xmlNodoService.InnerText = argServicio;
+
+                        Service = argServicio;
+
+                        _globalUniqueID += 1;
+
+
+                        //if (_verboseMode)
+                        //{
+                        //    Console.WriteLine(XmlLoginTicketRequest.OuterXml);
+                        //}
+                    }
+
+                    catch (Exception excepcionAlGenerarLoginTicketRequest) { throw new Exception("***Error GENERANDO el LoginTicketRequest : " + excepcionAlGenerarLoginTicketRequest.Message); }
+
+                    // PASO 2: Firmo el Login Ticket Request 
+                    try
+                    {
+                        //if (_verboseMode)
+                        //{
+                        //    Console.WriteLine("***Leyendo certificado: {0}", RutaDelCertificadoFirmante);
+                        //}
+
+                        certFirmante = CertificadosX509Lib.ObtieneCertificadoDesdeArchivo(RutaDelCertificadoFirmante, SerialCert);
+                        //if (_verboseMode)
+                        //{
+                        //    Console.WriteLine("***Firmando: ");
+                        //    Console.WriteLine(XmlLoginTicketRequest.OuterXml);
+                        //}
+
+                        // Convierto el login ticket request a bytes, para firmar 
+                        Encoding EncodedMsg = Encoding.UTF8;
+                        var msgBytes = EncodedMsg.GetBytes(XmlLoginTicketRequest.OuterXml);
+
+                        // Firmo el msg y paso a Base64 
+                        var encodedSignedCms = CertificadosX509Lib.FirmaBytesMensaje(msgBytes, certFirmante);
+                        cmsFirmadoBase64 = Convert.ToBase64String(encodedSignedCms);
+                    }
+
+                    catch (Exception excepcionAlFirmar) { throw new Exception("***Error FIRMANDO el LoginTicketRequest : " + excepcionAlFirmar.Message); }
+
+                    // PASO 3: Invoco al WSAA para obtener el Login Ticket Response 
+                    try
+                    {
+                        //if (_verboseMode)
+                        //{
+                        //    Console.WriteLine("***Llamando al WSAA en URL: {0}", argUrlWsaa);
+                        //    Console.WriteLine("***Argumento en el request:");
+                        //    Console.WriteLine(cmsFirmadoBase64);
+                        //}
+                        var servicioWsaa = new VideoCableEsc.wsaa.LoginCMSClient();
+                        //servicioWsaa.ClientCredentials = argRutaCertX509Firmante;
+                        servicioWsaa.ClientCredentials.ClientCertificate.Certificate = certFirmante;
+                        loginTicketResponse = servicioWsaa.loginCms(cmsFirmadoBase64);
+
+                        //if (_verboseMode)
+                        //{
+                        //    Console.WriteLine("***LoginTicketResponse: ");
+                        //    Console.WriteLine(loginTicketResponse);
+                        //}
+                    }
+
+                    catch (Exception excepcionAlInvocarWsaa) { throw new Exception("***Error INVOCANDO al servicio WSAA : " + excepcionAlInvocarWsaa.Message); }
+
+
+                    // PASO 4: Analizo el Login Ticket Response recibido del WSAA 
+                    try
+                    {
+                        XmlLoginTicketResponse = new XmlDocument();
+                        XmlLoginTicketResponse.LoadXml(loginTicketResponse);
+
+                        UniqueId = uint.Parse(XmlLoginTicketResponse.SelectSingleNode("//uniqueId").InnerText);
+                        GenerationTime = DateTime.Parse(XmlLoginTicketResponse.SelectSingleNode("//generationTime").InnerText);
+                        ExpirationTime = DateTime.Parse(XmlLoginTicketResponse.SelectSingleNode("//expirationTime").InnerText);
+                        Sign = XmlLoginTicketResponse.SelectSingleNode("//sign").InnerText;
+                        Token = XmlLoginTicketResponse.SelectSingleNode("//token").InnerText;
+                    }
+                    catch (Exception excepcionAlAnalizarLoginTicketResponse) { throw new Exception("***Error ANALIZANDO el LoginTicketResponse : " + excepcionAlAnalizarLoginTicketResponse.Message); }
+
+                    return loginTicketResponse;
+                }
+                catch (Exception ex) { throw ex; }
+            }
+        }
+
+        private class CertificadosX509Lib
+        {
+            public static bool VerboseMode;
+            /// <summary> 
+            /// Firma mensaje 
+            /// </summary> 
+            /// <param name="argBytesMsg">Bytes del mensaje</param> 
+            /// <param name="argCertFirmante">Certificado usado para firmar</param> 
+            /// <returns>Bytes del mensaje firmado</returns> 
+            /// <remarks></remarks> 
+            public static byte[] FirmaBytesMensaje(byte[] argBytesMsg, X509Certificate2 argCertFirmante)
+            {
+                try
+                {
+                    // Pongo el mensaje en un objeto ContentInfo (requerido para construir el obj SignedCms) 
+                    var infoContenido = new ContentInfo(argBytesMsg);
+                    var cmsFirmado = new SignedCms(infoContenido);
+
+                    // Creo objeto CmsSigner que tiene las caracteristicas del firmante 
+                    var cmsFirmante = new CmsSigner(argCertFirmante);
+                    cmsFirmante.IncludeOption = X509IncludeOption.EndCertOnly;
+                    if (VerboseMode)
+                    {
+                        //Console.WriteLine("***Firmando bytes del mensaje...");
+                    }
+
+                    // Firmo el mensaje PKCS #7 
+                    cmsFirmado.ComputeSignature(cmsFirmante);
+                    if (VerboseMode)
+                    {
+                        //Console.WriteLine("***OK mensaje firmado");
+                    }
+
+                    // Encodeo el mensaje PKCS #7. 
+                    return cmsFirmado.Encode();
+                }
+                catch (Exception excepcionAlFirmar) { throw new Exception("***Error al firmar: " + excepcionAlFirmar.Message); }
+            }
+            /// <summary> 
+            /// Lee certificado de disco 
+            /// </summary> 
+            /// <param name="argArchivo">Ruta del certificado a leer.</param> 
+            /// <returns>Un objeto certificado X509</returns> 
+            /// <remarks></remarks> 
+            public static X509Certificate2 ObtieneCertificadoDesdeArchivo(string argArchivo, string serial)
+            {
+                var objCert = new X509Certificate2();
+
+                try
+                {
+                    //objCert.Import(Microsoft.VisualBasic.FileIO.FileSystem.ReadAllBytes(argArchivo));
+
+                    var store = new X509Store();
+
+                    store = new X509Store(StoreName.Root, StoreLocation.LocalMachine /*StoreLocation.LocalMachine*/ /*.CurrentUser*/);
+
+                    store.Open(OpenFlags.ReadOnly);
+
+                    X509Certificate2Collection collectionX509 = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, false);
+
+
+                    if (collectionX509.Count == 1) objCert = collectionX509[0];
+
+                    else throw new Exception("No se puede encontrar el Certificado -> collectionX509.Count: " + collectionX509.Count.ToString(CultureInfo.InvariantCulture) + "\r\n\r\nServidor: " + "\r\nUser: ");
+
+                    return objCert;
+                }
+                catch (Exception excepcionAlImportarCertificado) { throw new Exception("argArchivo=" + argArchivo + " excepcion=" + excepcionAlImportarCertificado.Message + " " + excepcionAlImportarCertificado.StackTrace); }
+            }
+        }
+
+        #endregion;
+
+        private void btnRegistrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                lblLaOperacionPuedeDemorar.Visible = true;
+                lblPorFavorEspere.Visible = true;
+                pictureBox1.Visible = true;
+                Cursor = Cursors.WaitCursor;
+                backgroundWorker.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            FECAESolicitar(ruta);
+            e.Result = Result;
+        }
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            try
+            {
+                Cursor = Cursors.Arrow;
+                lblPorFavorEspere.Visible = false;
+                lblLaOperacionPuedeDemorar.Visible = false;
+                pictureBox1.Visible = false;
+                var ok = false;
+                var errores = "";
+                foreach (ResultadoOperacion r in Result)
+                    if (r.IdResultado == 1)
+                    {
+                        btnRegistrar.Enabled = false;
+                        ok = true;
+                        if (!string.IsNullOrEmpty(r.Observacion)) MessageBox.Show("Observaciones: la factura se autorizó correctamente, el servidor devolvió la siguiente observación. " + r.Observacion, "Observaciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        errores += r.DescripcionResultado;
+                        ok = false;
+                    }
+
+                if (ok)
+                {
+                    MessageBox.Show("Facturas Autorizadas Correctamente", "Autorización Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //if (MessageBox.Show("¿Desea Imprimir Comprobante Electrónico?", "CONFIRMAR IMPRESIÓN", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    //{
+                    //    var frm = new frmReportes {IdFactura = IdFacturaVenta, Tipo = "FACTVTA", IdEmpresa = SeteosStatic.IdEmpresa};
+                    //    frm.ShowDialog();
+                    //}
+                }
+                else { MessageBox.Show(errores == "" ? "Problemas internos con el servidor. Observe el estado del servidor en la esquina superior derecha." : errores, "Autorización Rechazada", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        private void CargarPdf(int idFacturaVenta)
+        {
+
+            var factura = facturasVentaNegocio.GetById(idFacturaVenta);
+
+            var cliente = factura.ClientesCajasDistribucionesServicios.Clientes;
+
+            var empresa = empresaN.GetEmpresa();
+
+            var facturaElectronica = facturasElectronicasNegocio.GetFacturaElectronicaByFacturaVentaId(factura.IdFacturaVenta);
+
+
+            string ruta = ConfigurationManager.AppSettings["pathFactura"];
+
+            string original = string.Empty;
+            string nuevoArchivo = string.Empty;
+            string nombreDocumento = string.Empty;
+
+            switch (factura.IdTipoFactura)
+            {
+                case (int)TipoFactura.A:
+                    original = ruta + @"\FacturaVentaA.docx";
+                    nombreDocumento = $"FacturaVentaA-{cliente.ApellidoyNombre}-{DateTime.Now}.pdf";
+                    nuevoArchivo = ruta + @"\FacturaVentaA Copia.docx";
+                    break;
+                case (int)TipoFactura.B:
+                    original = ruta + @"\FacturaVentaB.docx";
+                    nombreDocumento = $"FacturaVentaB-{cliente.ApellidoyNombre}-{DateTime.Now}.pdf";
+                    nuevoArchivo = ruta + @"\FacturaVentaB Copia.docx";
+                    break;
+
+            }
+
+            File.Copy(original, nuevoArchivo, true);
+
+            if (factura.IdTipoFactura == (int)TipoFactura.A || factura.IdTipoFactura == (int)TipoFactura.B)
+            {
+                QrGenerator(factura, cliente, empresa, facturaElectronica);
+
+                AgregarQr(nuevoArchivo);
+            }
+
+            Spire.License.LicenseProvider.SetLicenseKey("PUILu36Ih+JDtwEAr15df+E9OHwWC9pL54zFDJvFvQaW0gyLhw7Ynog/D53EWfx4AqgfkWxQxO8XR6vHzNtTnzemNPKTf4OMd/FVxzKPnIvOjuG0c1G5v1ZtlAZb5Uv1bwM9Ar+RjvXfQnylsQJwub+b9BZwnvNzOdWqDf8lqs6YcLDC5i3ObVJ24LVWpJI+Pxl0Mrg3ccRsSH7JraWEbvCfReHJyi5JJDG2KFxLH0cyx2TiRf4Sduan6+F3ZrjgPM5A2oCYfnDbHBLFv0oX9/oRKepuLb/PuASMMySZrjxoLMdCEEqc/mFB+BW0FzLKfgNIael5geTryiN5AGWEnB5K03Dsgo+o1k++02w1WQi4qD9n28rBQMvLrCyqreqacsRlUR2CjDgR1+Wor+ZG5GNVCoXYlY3MOY1oKbuAHy3VqgAeAwAdaHmHYrwXI/x4l+tIfnJWjiePqRa41je6KE2fDC4gboDMJlq1dk5Bdyzpe1HHe2IsZffg4eUvEfIPQTIIRtQdS4ynsUAirIBSGZGOD18vW/v1HJAUCkt/Dddxp+csS14i/OmUG4JddryhLRufFVkFk9wpQfiPjNXm/CI9eq22igO5I2Z3MNvAFV5EKvtJ9xy3eV4+w/1iZRtOU9OQYv7dSKXsfFflAVxjgDM0JjVQphsqHbarbs88LAO02P4G1wB36evbA8n/HAQTJvFtb6XpiI1mA9/XNnWS72rzVD69MBSZWelJWXvb6dnHI0CTdPVGpKDyZnI9fmpmvq+Yc7fjtC+P1rGtpLls3FiHR16s0fidh9uFJquJe0DXlFVR5Nk9oh5fMOpov9Bsy3G9UM3VpMS//UNx1LENKqz9lx7niE26gIM907h0ihSFiMgq8uU9s1+y44mNE2lNMD9ykQG5mK0WP8BzU2aoX9/T45ERldOSXm+dn6dTtHngaNfN7LgdXtcQYW0/2hLz3xJli9x7PL5R/iFTUufW0KgGMQOu4OBi/j8lTFROcR/lGI3rjhg5IWWy6cO+mGAXiJKdmtXWeWTdCfpu//RyBZtiGqFu1Z0m7bQzrFVGTB9MLuWJqVXM5UekXbEGK7ksxadKjx9cSwZapRHAh2gJp7eMvk160AAl3AleXyLC0f8fBSyzQFnvioAxwsATdbjxThZk/Pt1Zu/uOG1Dnul8wm90I9DYpcOaWW6okYEHQf37GmnkOYW2VVDOw/7YXw2nxTri1JrNlqw8E+9XXx779IzZcsX0XU71E7qqHWxP5JfRlSm4f2d+oS3alGhvduH7Y/PF08a8hhBSnznDziJeoYVjd+ZwT2uZ46ZGqcri2e10/x9OfjSoYDQn2JFG72dJLwmh/so0jkcjroDdWTLWqKZp5uTU3Xd0IoRCWyw7/k5cIBrV5qMaiNwtQWptH8KaeBbdqoxZqHWJdIjO+JMAIKTTAA8ZOHA1lEOkxjMYZnJtSVqxCGC+2fagkaANoZAv");
+
+            //Load Document
+            Spire.Doc.Document document = new Spire.Doc.Document();
+
+            document.LoadFromFile(nuevoArchivo);
+
+            foreach (FormField field in document.Sections[0].Body.FormFields)
+            {
+                switch (field.Name)
+                {
+                    //CAMPOS EMPRESA
+
+                    case "RazonSocialEmpresa":
+                        field.Text = empresa.RazonSocial;
+                        break;
+
+                    case "DomicilioComercialEm":
+                        field.Text = empresa.Direccion;
+                        break;
+
+                    case "CondicionIvaEmp":
+                        field.Text = empresa.CondicionIva;
+                        break;
+
+                    case "PuntoVenta":
+                        field.Text = "003";
+                        break;
+
+                    case "ComprobanteNro":
+                        field.Text = facturaElectronica != null ? facturaElectronica.NCompFact : "-";
+                        break;
+
+                    case "FechaEmision":
+                        field.Text = DateTime.Now.ToShortDateString();
+                        break;
+
+                    case "CuitEmpresa":
+                        field.Text = empresa.CUIT;
+                        break;
+
+                    case "IngresosBrutosEmp":
+                        field.Text = empresa.IIBB;
+                        break;
+
+                    case "FechaInicioActividad":
+                        field.Text = empresa.InicioActividades != null ? empresa.InicioActividades.Value.ToString("dd/MM/yyyy") : "-";
+                        break;
+
+                    //CAMPOS CLIENTE
+                    case "CuitCliente":
+                        field.Text = cliente.NroDocumento != null ? cliente.NroDocumento.Value.ToString() : "-";
+                        break;
+
+                    case "RazonSocialCliente":
+                        field.Text = cliente.ApellidoyNombre;
+                        break;
+
+                    case "CondicionIvaCliente":
+                        field.Text = cliente.RegimenesImpositivos != null ? cliente.RegimenesImpositivos.Descripcion : "-";
+                        break;
+
+                    case "DomicilioCliente":
+                        field.Text = string.IsNullOrEmpty(cliente.Direccion) ? "-" : cliente.Direccion;
+                        break;
+
+                    case "CondicionVenta":
+                        field.Text = factura.FormasPago.Descripcion;
+                        break;
+
+                    //CAMPOS SERVICIOS
+
+                    case "ServicioCodigoAfip":
+                        field.Text = "1";
+                        break;
+
+                    case "ServicioDescripcion":
+                        field.Text = factura.ClientesCajasDistribucionesServicios.Servicios.Descripcion;
+                        break;
+
+                    case "ServicioCantidad":
+                        field.Text = "1";
+                        break;
+
+                    case "ServicioPrecio":
+                        switch (factura.IdTipoFactura)
+                        {
+                            case (int)TipoFactura.A:
+                                field.Text = (factura.Total - factura.TotalIva21).ToString();
+                                break;
+
+                            case (int)TipoFactura.B:
+                                field.Text = (factura.Total).ToString();
+                                break;
+
+                            case (int)TipoFactura.C:
+                                break;
+
+                            case (int)TipoFactura.X:
+                                field.Text = (factura.Total).ToString();
+                                break;
+
+                            default:
+                                field.Text = (factura.Total).ToString();
+                                break;
+
+                        }
+                        field.Text = factura.ClientesCajasDistribucionesServicios.Servicios.Costo.ToString();
+                        break;
+
+                    case "ServicioSubtotal":
+                        field.Text = factura.SubTotal.ToString();
+                        break;
+
+                    case "PorcentajeIva":
+                        field.Text = "21";
+                        break;
+
+                    case "SubtotalCIva":
+                        field.Text = factura.Total.ToString();
+                        break;
+
+                    //CAMPOS OTROS TRIBUTOS
+
+                    case "ImpNetGra":
+                        switch (factura.IdTipoFactura)
+                        {
+                            case (int)TipoFactura.A:
+                                field.Text = (factura.Total - factura.TotalIva21).ToString();
+                                break;
+
+                            case (int)TipoFactura.B:
+                                field.Text = (factura.Total).ToString();
+                                break;
+
+                            case (int)TipoFactura.C:
+                                break;
+
+                            case (int)TipoFactura.X:
+                                field.Text = (factura.Total).ToString();
+                                break;
+
+                            default:
+                                field.Text = (factura.Total).ToString();
+                                break;
+
+                        }
+                        break;
+
+                    case "ImpIva21":
+                        field.Text = factura.Subtotal21.ToString();
+                        break;
+
+                    case "ImpTotal":
+                        field.Text = factura.Total.ToString();
+                        break;
+
+                    case "NumeroCae":
+                        field.Text = facturaElectronica.CAE;
+                        break;
+
+                    case "FechaVtoCae":
+                        field.Text = facturaElectronica.FechaVtoCAE.ToString("dd/MM/yyyy");
+                        break;
+
+                }
+            }
+
+
+
+
+            string mensaje;
+
+            factura.Pagado = true;
+
+            facturasVentaNegocio.Create(factura, out mensaje);
+
+            document.SaveToFile(nombreDocumento, FileFormat.PDF);
+
+            //Launch Document
+            System.Diagnostics.Process.Start(nombreDocumento);
+        }
+
+        private void AgregarQr(string nuevoArchivo)
+        {
+
+            var qrPath = "Qr.png";
+
+            using (DocX doc = DocX.Load(nuevoArchivo))
+            {
+
+                // Add an image into the document.    
+                Image image = doc.AddImage(qrPath);
+
+                // Create a picture (A custom view of an Image).
+                Picture picture = image.CreatePicture();
+
+                picture.Height = 90;
+                picture.Width = 120;
+
+
+                foreach (var item in doc.GetBookmarks())
+                {
+                    if (item.Name == "Imagen")
+                    {
+                        item.Paragraph.AppendPicture(picture);
+                    }
+                }
+
+                // Save this document.
+                doc.Save();
+            }
+
+        }
+        private void QrGenerator(FacturasVenta factura, Clientes cliente, Empresa empresa, FacturasElectronicas facturaElectronica)
+        {
+            //Color barcodeColor = newKnownColor.Black;
+
+            BarcodeWriter barcodeWriter = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new EncodingOptions
+                {
+                    Width = 50,
+                    Height = 50,
+                    PureBarcode = true
+                },
+                Renderer = new BitmapRenderer
+                {
+                    // Foreground = barcodeColor
+                }
+            };
+
+            int tipoComprobante = 0;
+            int tipoDocumentoReceptor = 0;
+
+            switch (factura.IdTipoFactura)
+            {
+                case (int)TipoFactura.A:
+                    tipoComprobante = 001;
+                    break;
+                case (int)TipoFactura.B:
+                    tipoComprobante = 006;
+                    break;
+
+            }
+
+            switch (cliente.TipoDocumento)
+            {
+                case "CUIL":
+                    tipoDocumentoReceptor = 86;
+                    break;
+                case "CUIT":
+                    tipoDocumentoReceptor = 80;
+                    break;
+                case "DNI":
+                    tipoDocumentoReceptor = 96;
+                    break;
+                case "LC":
+                    tipoDocumentoReceptor = 90;
+                    break;
+                case "LE":
+                    tipoDocumentoReceptor = 89;
+                    break;
+
+            }
+
+            var afipQr = new AfipQr
+            {
+                ver = 1,
+                fecha = facturaElectronica.Fecha.ToString("yyyy-MM-dd"),
+                cuit = Convert.ToInt64(empresa.CUIT),
+                ptoVta = Convert.ToInt32("003"),
+                tipoCmp = tipoComprobante,
+                nroCmp = Convert.ToInt64(facturaElectronica.NCompFact),
+                importe = factura.Total,
+                moneda = "PES", // PES es pesos
+                ctz = 1, // codigo de cotizacion de la moneda pesos
+                tipoDocRec = tipoDocumentoReceptor,
+                nroDocRec = cliente.NroDocumento.Value,
+                tipoCodAut = "E", //"E" para comprobante autorizado por CAE
+                codAut = Convert.ToInt64(facturaElectronica.CAE)
+            };
+
+            var jsonParaQr = JsonConvert.SerializeObject(afipQr);
+
+            var jsonEnArray = Encoding.UTF8.GetBytes(jsonParaQr);
+
+            var jsonBase64 = Convert.ToBase64String(jsonEnArray);
+
+
+            Bitmap barCodeBitmap = barcodeWriter.Write($"https://www.afip.gob.ar/fe/qr/?p={jsonBase64}");
+            var memoryStream = new MemoryStream();
+
+            // save to stream as PNG
+            barCodeBitmap.Save("Qr.png", System.Drawing.Imaging.ImageFormat.Png);
+
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e) { Close(); }
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                var ws = new ServiceSoapClient();
+                DummyResponse dummy = ws.FEDummy();
+                string resul = "Auth Server: " + dummy.AuthServer;
+                resul = resul + Environment.NewLine + "AppServer: " + dummy.AppServer;
+                resul = resul + Environment.NewLine + "DBServer: " + dummy.DbServer;
+                MessageBox.Show(resul, "Estado del Web Service", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void ConsultarEstadoServidor()
+        {
+            try
+            {
+                var ws = new ServiceSoapClient();
+                DummyResponse dummy = ws.FEDummy();
+                ptbDB.BackColor = dummy.DbServer == "OK" ? Color.Green : Color.Yellow;
+                ptbAuth.BackColor = dummy.AuthServer == "OK" ? Color.Green : Color.Yellow;
+                ptbApp.BackColor = dummy.AppServer == "OK" ? Color.Green : Color.Yellow;
+            }
+            catch (Exception ex)
+            {
+                ptbApp.BackColor = Color.Red;
+                ptbAuth.BackColor = Color.Red;
+                ptbDB.BackColor = Color.Red;
+            }
+        }
+    }
+}

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2ed1fcabbf1b4b8db128c75d0ba1ea5c" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="SgPymeBaseModel.AjustesStock" Width="1.5" PointX="8.25" PointY="40.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ArchivosGenerados" Width="1.5" PointX="18.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Articulos" Width="1.5" PointX="6" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.AsientosContables" Width="1.5" PointX="17" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.AutenticacionesWSAA" Width="1.5" PointX="18.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Bancos" Width="1.5" PointX="6.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Cajas" Width="1.5" PointX="4.5" PointY="52.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasAperturas" Width="1.5" PointX="6.75" PointY="52.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasAperturasDetalle" Width="1.5" PointX="19.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasDistribuciones" Width="1.5" PointX="18.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasMovimientos" Width="1.5" PointX="9" PointY="52.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasMovimientosDetalle" Width="1.5" PointX="11.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CancelacionFacturas" Width="1.5" PointX="20.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CancelacionFacturasCompra" Width="1.5" PointX="18.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Cheques" Width="1.5" PointX="9" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CierresIvaCompras" Width="1.5" PointX="20.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Clientes" Width="1.5" PointX="1.5" PointY="36.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ClientesCajasDistribucionesServicios" Width="1.5" PointX="3.75" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ClientesCajasDistribucionesServiciosEstados" Width="1.5" PointX="6" PointY="47.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CondicionesPago" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ControladoresFiscales" Width="1.5" PointX="9" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CPostales" Width="1.5" PointX="4.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CuentasBancarias" Width="1.5" PointX="20.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CuentasContables" Width="1.5" PointX="14.75" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.DatosImpositivos" Width="1.5" PointX="11.5" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Depositos" Width="1.5" PointX="20.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.DiaGeneracionInteres" Width="1.5" PointX="9" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.EmpTarjetas" Width="1.5" PointX="9" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Errores" Width="1.5" PointX="21.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Estados" Width="1.5" PointX="3.75" PointY="48.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.EstadosCaja" Width="1.5" PointX="2.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FacturasCompra" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FacturasCompraDetalle" Width="1.5" PointX="8.25" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FacturasElectronicas" Width="1.5" PointX="21.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FacturasVentaDetalle" Width="1.5" PointX="11.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FormasPago" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.GeneracionInteres" Width="1.5" PointX="11.25" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Liquidaciones" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.LiquidacionesFacturas" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Modulos" Width="1.5" PointX="1.5" PointY="60.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.MovimientosBancos" Width="1.5" PointX="16" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.MovimientosDepositos" Width="1.5" PointX="22.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ObservacionesCliente" Width="1.5" PointX="22.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.OrdenesPedidoFacturas" Width="1.5" PointX="22.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.OrdenesPedidos" Width="1.5" PointX="3" PointY="63.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.OrdenesPedidosDetalle" Width="1.5" PointX="5.25" PointY="63" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Pagos" Width="1.5" PointX="9" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.PagosDetalle" Width="1.5" PointX="14.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.PeriodosContables" Width="1.5" PointX="14.75" PointY="38" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.PreciosVenta" Width="1.5" PointX="8.25" PointY="44" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Presupuestos" Width="1.5" PointX="14" PointY="24.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.PresupuestosDetalles" Width="1.5" PointX="16.25" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Proveedores" Width="1.5" PointX="0.75" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Provincias" Width="1.5" PointX="2.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Recibos" Width="1.5" PointX="9" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RecibosDetalle" Width="1.5" PointX="11.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ReferentesProveedores" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RegimenesImpositivos" Width="1.5" PointX="1.5" PointY="45.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Remitos" Width="1.5" PointX="14.25" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RemitosCompra" Width="1.5" PointX="12" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RemitosDetalle" Width="1.5" PointX="16.5" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RemitosDetalleCompra" Width="1.5" PointX="16.25" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RemitosXfacturados" Width="1.5" PointX="22.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.RetencionesGcia" Width="1.5" PointX="20.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Rubros" Width="1.5" PointX="3.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Servicios" Width="1.5" PointX="1.5" PointY="49" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Seteos" Width="1.5" PointX="22.75" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.SubRubros" Width="1.5" PointX="3.75" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposCF" Width="1.5" PointX="23.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposCheques" Width="1.5" PointX="23.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposConceptoFactura" Width="1.5" PointX="3.75" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposDocFact" Width="1.5" PointX="0.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposDocumento" Width="1.5" PointX="1.5" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposFactura" Width="1.5" PointX="0.75" PointY="33.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposImpuestos" Width="1.5" PointX="9.25" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposIva" Width="1.5" PointX="6" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposMovimientosBanco" Width="1.5" PointX="13.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposMovimientosCaja" Width="1.5" PointX="6.75" PointY="56" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposMovimientosDepositos" Width="1.5" PointX="24.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposPagos" Width="1.5" PointX="9" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposPersona" Width="1.5" PointX="13.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposRetenciones" Width="1.5" PointX="24.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposUsuarios" Width="1.5" PointX="1.5" PointY="57.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposVendedores" Width="1.5" PointX="14.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.TiposVendedoresExternos" Width="1.5" PointX="14.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.UnidadesMedida" Width="1.5" PointX="3.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Usuarios" Width="1.5" PointX="1.5" PointY="52.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Vendedores" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VendedoresFacturasVenta" Width="1.5" PointX="24.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VendedoresRemitos" Width="1.5" PointX="24.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CabeceraArchivoFact" Width="1.5" PointX="24.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CalculoStockInicial" Width="1.5" PointX="24.75" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.DetalleArchivoFact" Width="1.5" PointX="25.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FechaServidor" Width="1.5" PointX="25.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaAperturasCajas" Width="1.5" PointX="26.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaArticulos" Width="1.5" PointX="26.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaArticulosPV" Width="1.5" PointX="18.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaArtSinVentas" Width="1.5" PointX="26.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaAsientosContables" Width="1.5" PointX="26.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCabeceraRemImp" Width="1.5" PointX="26.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCabFactCompra" Width="1.5" PointX="28.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCabFactVenta" Width="1.5" PointX="28.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCabFactVentaConCaja" Width="1.5" PointX="28.75" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCajaDistribuciones" Width="1.5" PointX="28.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCajas" Width="1.5" PointX="24.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCancelacionFacturas" Width="1.5" PointX="30.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCancelacionFacturasRetenciones" Width="1.5" PointX="30.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCancelacionNC" Width="1.5" PointX="30.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCancelacionNCPagos" Width="1.5" PointX="30.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCantFactporRubro" Width="1.5" PointX="30.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCantFactporRubroSubRubro" Width="1.5" PointX="30.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCantFactporSubRubro" Width="1.5" PointX="30.75" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCCClientesME" Width="1.5" PointX="30.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCCProveedoresME" Width="1.5" PointX="30.75" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCFs" Width="1.5" PointX="26.75" PointY="32.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCheques" Width="1.5" PointX="32.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaChequesPropios" Width="1.5" PointX="32.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCobranzaxTP" Width="1.5" PointX="32.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaComprobantesSinSaldar" Width="1.5" PointX="16.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaConsultaDetalleFacturacion" Width="1.5" PointX="18.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaConsultaDetalleFacturacionCompra" Width="1.5" PointX="32.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCPostales" Width="1.5" PointX="20.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCtaCteClientes" Width="1.5" PointX="22.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCtaCteProveedores" Width="1.5" PointX="32.75" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaCuentasBancarias" Width="1.5" PointX="32.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDatosImpositivos" Width="1.5" PointX="32.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleAsientosContables" Width="1.5" PointX="11.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleCCClientes" Width="1.5" PointX="28.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleCCProv" Width="1.5" PointX="34.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleFactCompra" Width="1.5" PointX="34.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleFacturasSinComisionar" Width="1.5" PointX="34.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleFactVenta" Width="1.5" PointX="34.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleMovimientosCajaySencillo" Width="1.5" PointX="34.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleMovimientosDepositos" Width="1.5" PointX="34.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetallePagoCancelacion" Width="1.5" PointX="34.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDetalleReciboCancelacion" Width="1.5" PointX="24.75" PointY="36.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaDiaGeneracionIntereses" Width="1.5" PointX="36.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaEmpresa" Width="1.5" PointX="36.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaFacturasSinSaldar" Width="1.5" PointX="36.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaFacturasSinSaldarCompras" Width="1.5" PointX="36.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaLibroIvaCompras" Width="1.5" PointX="36.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaLibroIvaVenta" Width="1.5" PointX="20.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaMovimientosCaja" Width="1.5" PointX="36.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaMovimientosDepositos" Width="1.5" PointX="36.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaMovStock" Width="1.5" PointX="30.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaNCCompSinSaldar" Width="1.5" PointX="32.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaNCsinSaldar" Width="1.5" PointX="36.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaOrdenesPedidoDetallePendienteFacturacion" Width="1.5" PointX="11.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaOrdenesPedidos" Width="1.5" PointX="16.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaOrdenesPedidosDetalle" Width="1.5" PointX="38.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaPagos" Width="1.5" PointX="38.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaPagosDetalle" Width="1.5" PointX="3.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaPagosxTP" Width="1.5" PointX="38.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaPreciosVenta" Width="1.5" PointX="38.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaPresupuestos" Width="1.5" PointX="38.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaPresupuestosDetalles" Width="1.5" PointX="38.75" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaProveedores" Width="1.5" PointX="26.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaProvVSArt" Width="1.5" PointX="38.75" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRecibos" Width="1.5" PointX="38.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRecibosDetalle" Width="1.5" PointX="34.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRegimenesImpositivosCompras" Width="1.5" PointX="36.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRemitosCab" Width="1.5" PointX="38.75" PointY="38.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRemitosCompraCab" Width="1.5" PointX="40.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRemitosCompraDet" Width="1.5" PointX="40.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRemitosDet" Width="1.5" PointX="40.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRemitosnofactdeProv" Width="1.5" PointX="40.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaRemitosXSinFacturar" Width="1.5" PointX="13.75" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaStockArticulos" Width="1.5" PointX="40.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesCancelacionCobros" Width="1.5" PointX="40.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesCancelacionPagos" Width="1.5" PointX="22.75" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesComisionesFacturas" Width="1.5" PointX="40.75" PointY="24.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesDiscriminadosFactB" Width="1.5" PointX="40.75" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesDiscriminadosFactBCompra" Width="1.5" PointX="28.75" PointY="41.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesNotaCredito" Width="1.5" PointX="40.75" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesNotaCreditoCompra" Width="1.5" PointX="40.75" PointY="34.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalesRetenciones" Width="1.5" PointX="40.75" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaTotalFPagosCaja" Width="1.5" PointX="40.75" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaUsuarios" Width="1.5" PointX="10.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaVendedores" Width="1.5" PointX="15.75" PointY="42.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaVendedoresFactVta" Width="1.5" PointX="17.75" PointY="42.125" IsExpanded="true" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_AjustesStock_Articulos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Articulos_Rubros" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Articulos_SubRubros" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Articulos_UnidadesMedida" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompraDetalle_Articulos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_PreciosVenta_Articulos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_PresupuestosDetalles_Articulos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RemitosDetalle_Articulos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RemitosDetalleCompra_Articulos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_AsientosContables_AsientosContables" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_AsientosContables_PeriodosContables" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Cheques_Bancos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasAperturas_Cajas" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasMovimientos_CajasAperturas" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasMovimientos_TiposMovimientosCaja" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasMovimientosDetalle_CajasMovimientosDetalle" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasMovimientosDetalle_Cheques" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasMovimientosDetalle_EmpTarjetas" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasMovimientosDetalle_TiposPagos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CancelacionFacturasCompra_MovimientosBancos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_PagosDetalle_Cheques" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RecibosDetalle_Cheques" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Clientes_CPostales" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Clientes_RegimenesImpositivos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Clientes_TiposDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServicios_Clientes" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_DatosImpositivos_Clientes" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Presupuestos_Clientes" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Remitos_Clientes" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServicios_CajasDistribuciones" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServicios_Servicios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServicios_Usuarios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServiciosEstados_ClientesCajasDistribucionesServicios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServiciosEstados_Estados" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ClientesCajasDistribucionesServiciosEstados_Usuarios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompra_CondicionesPago" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CPOSTALES_PROVINCIAS" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Proveedores_CPostales" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Vendedores_CPostales" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_DatosImpositivos_Provincias" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_DatosImpositivos_TiposImpuestos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_GeneracionInteres_DiaGeneracionInteres" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RecibosDetalle_EmpTarjetas" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompra_FormasPago" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompra_Proveedores" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompra_TiposDocFact" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompra_TiposFactura" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompraDetalle_FacturasCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompraDetalle_TiposIva" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasVentaDetalle_Servicios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasVentaDetalle_TiposIva" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_LiquidacionesFacturas_Liquidaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_MovimientosBancos_TiposMovimientosBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_MovimientosBancos_TiposPersona" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_OrdenesPedidos_Clientes" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_OrdenesPedidosDetalle_OrdenesPedidos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Pagos_Proveedores" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Pagos_TiposDocFact" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_PagosDetalle_Pagos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_PagosDetalle_TiposPagos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_PresupuestosDetalles_Presupuestos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Proveedores_TiposDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ReferentesProveedores_Proveedores" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RemitosCompra_Proveedores" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Recibos_TiposDocFact" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RecibosDetalle_Recibos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RecibosDetalle_TiposPagos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RemitosDetalle_Remitos" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RemitosDetalleCompra_RemitosCompra" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Servicios_Servicios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Vendedores_TiposDocumento" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Usuarios_TiposUsuarios" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_TiposVendedores_Vendedores" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_TiposVendedoresExternos_Vendedores" ManuallyRouted="false" />
+        <AssociationConnector Association="SgPymeBaseModel.ModulosTiposUsuarios" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Empresa" Width="1.5" PointX="6.75" PointY="6.375" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_AsientosContables_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Cheques_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_ControladoresFiscales_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Empresa_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasCompra_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Pagos_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Presupuestos_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Recibos_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Remitos_Remitos" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_RemitosCompra_Empresa" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.FacturasVenta" Width="1.5" PointX="20" PointY="42.75" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Facturas_Clientes" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Facturas_CondicionesPago" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasVenta_Empresa" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Concepto_Factura" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Facturas_FormasPago" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Facturas_TiposDocFact" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Facturas_TiposFactura" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasVenta_ConceptosFactura" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_FacturasVentaDetalle_FacturasVenta" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_GeneracionInteres_FacturasVenta" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_Remitos_FacturasVenta" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ReportePresupuesto" Width="1.5" PointX="5.375" PointY="13.75" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.VistaClientes" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.Ultima_Revision_Deudores" Width="1.5" PointX="16.375" PointY="5.75" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.ClientesSuspendidos" Width="1.5" PointX="18.625" PointY="54.625" />
+        <AssociationConnector Association="SgPymeBaseModel.FK__ClientesS__Id_Ul__39AD8A7F" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
