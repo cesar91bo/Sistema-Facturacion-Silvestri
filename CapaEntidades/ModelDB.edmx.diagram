@@ -288,6 +288,12 @@
         <EntityTypeShape EntityType="SgPymeBaseModel.Ultima_Revision_Deudores" Width="1.5" PointX="16.375" PointY="5.75" />
         <EntityTypeShape EntityType="SgPymeBaseModel.ClientesSuspendidos" Width="1.5" PointX="18.625" PointY="54.625" />
         <AssociationConnector Association="SgPymeBaseModel.FK__ClientesS__Id_Ul__39AD8A7F" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajaMediosPagos" Width="1.5" PointX="5.375" PointY="23.75" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasDiarias" Width="1.5" PointX="31.375" PointY="43" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasEgresos" Width="1.5" PointX="33.625" PointY="43.125" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasEgresos_CajasDiarias" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajaMediosPagos_CajasDiarias" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajaMediosPagos_TiposPagos" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

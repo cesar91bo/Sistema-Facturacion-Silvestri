@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using CapaNegocio;
+using CapaEntidades;
+using VideoCableEsc.Forms.Caja;
 
 namespace VideoCableEsc
 {
@@ -145,6 +147,23 @@ namespace VideoCableEsc
                     if (loginNegocio.AutenticacionUsuario(this.txtBoxUser.Text, this.txtBoxPass.Text))
                     {
                         Hide();
+
+                        CajaNegocio cajaNegocio = new CajaNegocio();
+                        CajasDiarias cajasDiarias = cajaNegocio.ObtenerUltimaCaja();
+                        DateTime fechaActual = DateTime.Now;
+
+                        if (cajasDiarias == null || cajasDiarias.FechaApertura.Date != fechaActual.Date)
+                        {
+                            DialogResult result = MessageBox.Show("La caja no se ha abuerta. ¿Desea abrirla ahora?", "ABRIR CAJA",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+                            if (result == DialogResult.Yes)
+                            {
+                                var frmCaja = new frmAperturaCaja();
+                                frmCaja.ShowDialog();
+                            }
+
+                        }
                         var frm = new frmPrincipal();
                         frm.ShowDialog();
                         Close();
@@ -200,25 +219,29 @@ namespace VideoCableEsc
         {
             try
             {
-                if (txtBoxUser.Text != "USUARIO")
+                if (e.KeyCode == Keys.Enter)
                 {
-                    if (txtBoxPass.Text != "CONTRASEÑA" && txtBoxPass.Text != "")
+                    if (txtBoxUser.Text != "USUARIO")
                     {
-                        if (e.KeyCode == Keys.Enter)
+                        if (txtBoxPass.Text != "CONTRASEÑA" && txtBoxPass.Text != "")
                         {
+                            if (e.KeyCode == Keys.Enter)
+                            {
 
-                            Ingresar();
+                                Ingresar();
 
-                        }
-                        else
-                        {
-                            msjError("Por favor ingrese la Contraseña");
+                            }
+                            else
+                            {
+                                msjError("Por favor ingrese la Contraseña");
+                            }
                         }
                     }
-                }
-                else
-                {
-                    msjError("Por favor ingrese el nombre de Usuario");
+                    else
+                    {
+                        msjError("Por favor ingrese el nombre de Usuario");
+                    }
+                    e.SuppressKeyPress = true;
                 }
             }
             catch (Exception ex)

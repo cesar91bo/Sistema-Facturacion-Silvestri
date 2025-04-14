@@ -12,26 +12,26 @@ namespace CapaEntidades
     using System;
     using System.Collections.Generic;
     
-    public partial class TiposPagos
+    public partial class CajasDiarias
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TiposPagos()
+        public CajasDiarias()
         {
-            this.CajasMovimientosDetalle = new HashSet<CajasMovimientosDetalle>();
-            this.PagosDetalle = new HashSet<PagosDetalle>();
-            this.RecibosDetalle = new HashSet<RecibosDetalle>();
+            this.CajasEgresos = new HashSet<CajasEgresos>();
             this.CajaMediosPagos = new HashSet<CajaMediosPagos>();
         }
     
-        public short IdTipoPago { get; set; }
-        public string Descripcion { get; set; }
+        public int IdCajaDiaria { get; set; }
+        public System.DateTime FechaApertura { get; set; }
+        public decimal MontoInicial { get; set; }
+        public Nullable<int> UsuarioApertura { get; set; }
+        public Nullable<System.DateTime> FechaCierre { get; set; }
+        public Nullable<decimal> MontoFinal { get; set; }
+        public Nullable<int> UsuarioCierre { get; set; }
+        public string Estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CajasMovimientosDetalle> CajasMovimientosDetalle { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PagosDetalle> PagosDetalle { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecibosDetalle> RecibosDetalle { get; set; }
+        public virtual ICollection<CajasEgresos> CajasEgresos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CajaMediosPagos> CajaMediosPagos { get; set; }
     }

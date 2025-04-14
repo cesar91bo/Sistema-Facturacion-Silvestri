@@ -79,6 +79,9 @@
     <Compile Include="CabeceraArchivoFact.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CajaMediosPagos.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Cajas.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
@@ -88,7 +91,13 @@
     <Compile Include="CajasAperturasDetalle.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CajasDiarias.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CajasDistribuciones.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CajasEgresos.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
     <Compile Include="CajasMovimientos.cs">
