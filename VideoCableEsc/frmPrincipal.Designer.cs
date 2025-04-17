@@ -57,6 +57,7 @@
             this.lblFecha = new System.Windows.Forms.Label();
             this.lblHora = new System.Windows.Forms.Label();
             this.horaFecha = new System.Windows.Forms.Timer(this.components);
+            this.btnEgreso = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.pnlServicios.SuspendLayout();
             this.panelSubMenuReporte.SuspendLayout();
@@ -272,6 +273,7 @@
             // 
             // panelDesktop
             // 
+            this.panelDesktop.Controls.Add(this.btnEgreso);
             this.panelDesktop.Controls.Add(this.lblFecha);
             this.panelDesktop.Controls.Add(this.lblHora);
             resources.ApplyResources(this.panelDesktop, "panelDesktop");
@@ -293,6 +295,13 @@
             // 
             this.horaFecha.Enabled = true;
             this.horaFecha.Tick += new System.EventHandler(this.horaFecha_Tick);
+            // 
+            // btnEgreso
+            // 
+            resources.ApplyResources(this.btnEgreso, "btnEgreso");
+            this.btnEgreso.Name = "btnEgreso";
+            this.btnEgreso.UseVisualStyleBackColor = true;
+            this.btnEgreso.Click += new System.EventHandler(this.btnEgreso_Click);
             // 
             // frmPrincipal
             // 
@@ -349,5 +358,6 @@
         private System.Windows.Forms.Panel pnlServicios;
         private System.Windows.Forms.Button btnFibraOptica;
         private System.Windows.Forms.Button btnVideoCable;
+        private System.Windows.Forms.Button btnEgreso;
     }
 }

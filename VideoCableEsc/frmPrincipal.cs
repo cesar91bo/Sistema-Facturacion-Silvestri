@@ -16,6 +16,7 @@ using VideoCableEsc.Forms.Servicio;
 using VideoCableEsc.Forms;
 using VideoCableEsc.Forms.Reportes;
 using VideoCableEsc.Forms.Cliente;
+using VideoCableEsc.Forms.Caja;
 
 namespace VideoCableEsc
 {
@@ -275,6 +276,12 @@ namespace VideoCableEsc
         private void panelMenu_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnEgreso_Click(object sender, EventArgs e)
+        {
+            var frmRegistro = new frmRegistroEgreso();
+            frmRegistro.ShowDialog();
         }
     }
 }

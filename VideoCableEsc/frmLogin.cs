@@ -149,12 +149,21 @@ namespace VideoCableEsc
                         Hide();
 
                         CajaNegocio cajaNegocio = new CajaNegocio();
-                        CajasDiarias cajasDiarias = cajaNegocio.ObtenerUltimaCaja();
-                        DateTime fechaActual = DateTime.Now;
 
-                        if (cajasDiarias == null || cajasDiarias.FechaApertura.Date != fechaActual.Date)
+                        if (cajaNegocio.ExisteCajaAnteriorSinCerrar())
                         {
-                            DialogResult result = MessageBox.Show("La caja no se ha abuerta. ¿Desea abrirla ahora?", "ABRIR CAJA",
+                            DialogResult result = MessageBox.Show("Atención: la caja anterior no fue cerrada. ¿Desea cerrar ahora?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            if (result == DialogResult.Yes)
+                            {
+                                var frmCerrarCaja = new frmCierreCaja();
+                                frmCerrarCaja.ShowDialog();
+                            }
+                        }
+
+                        CajasDiarias cajaActual = cajaNegocio.ObtenerCajaActual();
+                        if (cajaActual == null)
+                        {
+                            DialogResult result = MessageBox.Show("La caja no se ha abierto. ¿Desea abrirla ahora?", "ABRIR CAJA",
                                 MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question);
                             if (result == DialogResult.Yes)
@@ -162,7 +171,6 @@ namespace VideoCableEsc
                                 var frmCaja = new frmAperturaCaja();
                                 frmCaja.ShowDialog();
                             }
-
                         }
                         var frm = new frmPrincipal();
                         frm.ShowDialog();

@@ -265,6 +265,18 @@
     <Compile Include="Forms\Caja\frmAperturaCaja.Designer.cs">
       <DependentUpon>frmAperturaCaja.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Caja\frmCierreCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Caja\frmCierreCaja.Designer.cs">
+      <DependentUpon>frmCierreCaja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Caja\frmRegistroEgreso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Caja\frmRegistroEgreso.Designer.cs">
+      <DependentUpon>frmRegistroEgreso.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ClienteCajaDistribucionServicioEstado\frmConsultaClientesCajasDistribucionServiciosEstados.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -463,6 +475,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Caja\frmAperturaCaja.resx">
       <DependentUpon>frmAperturaCaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Caja\frmCierreCaja.resx">
+      <DependentUpon>frmCierreCaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Caja\frmRegistroEgreso.resx">
+      <DependentUpon>frmRegistroEgreso.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClienteCajaDistribucionServicioEstado\frmConsultaClientesCajasDistribucionServiciosEstados.resx">
       <DependentUpon>frmConsultaClientesCajasDistribucionServiciosEstados.cs</DependentUpon>
