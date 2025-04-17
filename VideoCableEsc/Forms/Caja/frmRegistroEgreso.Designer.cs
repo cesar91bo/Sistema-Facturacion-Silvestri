@@ -62,9 +62,9 @@
             this.lblAbrir.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAbrir.Location = new System.Drawing.Point(317, 22);
             this.lblAbrir.Name = "lblAbrir";
-            this.lblAbrir.Size = new System.Drawing.Size(176, 23);
+            this.lblAbrir.Size = new System.Drawing.Size(171, 23);
             this.lblAbrir.TabIndex = 12;
-            this.lblAbrir.Text = "Montivo del Egreso";
+            this.lblAbrir.Text = "Montivo de Egreso";
             // 
             // textBox3
             // 

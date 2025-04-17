@@ -53,11 +53,11 @@
             this.btnClose = new System.Windows.Forms.PictureBox();
             this.panelTitleBar = new System.Windows.Forms.Panel();
             this.lblTittle = new System.Windows.Forms.Label();
-            this.panelDesktop = new System.Windows.Forms.Panel();
-            this.lblFecha = new System.Windows.Forms.Label();
-            this.lblHora = new System.Windows.Forms.Label();
             this.horaFecha = new System.Windows.Forms.Timer(this.components);
-            this.btnEgreso = new System.Windows.Forms.Button();
+            this.lblHora = new System.Windows.Forms.Label();
+            this.lblFecha = new System.Windows.Forms.Label();
+            this.panelDesktop = new System.Windows.Forms.Panel();
+            this.btnCajas = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.pnlServicios.SuspendLayout();
             this.panelSubMenuReporte.SuspendLayout();
@@ -73,6 +73,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.panelMenu.Controls.Add(this.btnCajas);
             this.panelMenu.Controls.Add(this.pnlServicios);
             this.panelMenu.Controls.Add(this.panelSubMenuReporte);
             this.panelMenu.Controls.Add(this.panelSubmenuFact);
@@ -148,8 +149,8 @@
             // 
             // btnConsultaFV
             // 
-            this.btnConsultaFV.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnConsultaFV, "btnConsultaFV");
+            this.btnConsultaFV.FlatAppearance.BorderSize = 0;
             this.btnConsultaFV.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnConsultaFV.Name = "btnConsultaFV";
             this.btnConsultaFV.UseVisualStyleBackColor = true;
@@ -157,8 +158,8 @@
             // 
             // btnFactElec
             // 
-            this.btnFactElec.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnFactElec, "btnFactElec");
+            this.btnFactElec.FlatAppearance.BorderSize = 0;
             this.btnFactElec.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnFactElec.Name = "btnFactElec";
             this.btnFactElec.UseVisualStyleBackColor = true;
@@ -166,8 +167,8 @@
             // 
             // btnFacturaX
             // 
-            this.btnFacturaX.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnFacturaX, "btnFacturaX");
+            this.btnFacturaX.FlatAppearance.BorderSize = 0;
             this.btnFacturaX.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnFacturaX.Name = "btnFacturaX";
             this.btnFacturaX.UseVisualStyleBackColor = true;
@@ -193,8 +194,8 @@
             // 
             // btnIndex
             // 
-            this.btnIndex.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnIndex, "btnIndex");
+            this.btnIndex.FlatAppearance.BorderSize = 0;
             this.btnIndex.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnIndex.Name = "btnIndex";
             this.btnIndex.UseVisualStyleBackColor = true;
@@ -225,8 +226,8 @@
             // 
             // btnSetting
             // 
-            this.btnSetting.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnSetting, "btnSetting");
+            this.btnSetting.FlatAppearance.BorderSize = 0;
             this.btnSetting.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnSetting.Name = "btnSetting";
             this.btnSetting.UseVisualStyleBackColor = true;
@@ -271,19 +272,10 @@
             this.lblTittle.ForeColor = System.Drawing.Color.White;
             this.lblTittle.Name = "lblTittle";
             // 
-            // panelDesktop
+            // horaFecha
             // 
-            this.panelDesktop.Controls.Add(this.btnEgreso);
-            this.panelDesktop.Controls.Add(this.lblFecha);
-            this.panelDesktop.Controls.Add(this.lblHora);
-            resources.ApplyResources(this.panelDesktop, "panelDesktop");
-            this.panelDesktop.Name = "panelDesktop";
-            // 
-            // lblFecha
-            // 
-            resources.ApplyResources(this.lblFecha, "lblFecha");
-            this.lblFecha.ForeColor = System.Drawing.Color.SlateGray;
-            this.lblFecha.Name = "lblFecha";
+            this.horaFecha.Enabled = true;
+            this.horaFecha.Tick += new System.EventHandler(this.horaFecha_Tick);
             // 
             // lblHora
             // 
@@ -291,17 +283,26 @@
             this.lblHora.ForeColor = System.Drawing.Color.DodgerBlue;
             this.lblHora.Name = "lblHora";
             // 
-            // horaFecha
+            // lblFecha
             // 
-            this.horaFecha.Enabled = true;
-            this.horaFecha.Tick += new System.EventHandler(this.horaFecha_Tick);
+            resources.ApplyResources(this.lblFecha, "lblFecha");
+            this.lblFecha.ForeColor = System.Drawing.Color.SlateGray;
+            this.lblFecha.Name = "lblFecha";
             // 
-            // btnEgreso
+            // panelDesktop
             // 
-            resources.ApplyResources(this.btnEgreso, "btnEgreso");
-            this.btnEgreso.Name = "btnEgreso";
-            this.btnEgreso.UseVisualStyleBackColor = true;
-            this.btnEgreso.Click += new System.EventHandler(this.btnEgreso_Click);
+            this.panelDesktop.Controls.Add(this.lblFecha);
+            this.panelDesktop.Controls.Add(this.lblHora);
+            resources.ApplyResources(this.panelDesktop, "panelDesktop");
+            this.panelDesktop.Name = "panelDesktop";
+            // 
+            // btnCajas
+            // 
+            resources.ApplyResources(this.btnCajas, "btnCajas");
+            this.btnCajas.FlatAppearance.BorderSize = 0;
+            this.btnCajas.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnCajas.Name = "btnCajas";
+            this.btnCajas.UseVisualStyleBackColor = true;
             // 
             // frmPrincipal
             // 
@@ -342,10 +343,7 @@
         private System.Windows.Forms.PictureBox btnClose;
         private System.Windows.Forms.Panel panelTitleBar;
         public System.Windows.Forms.Label lblTittle;
-        public System.Windows.Forms.Panel panelDesktop;
         private System.Windows.Forms.Button btnIndex;
-        private System.Windows.Forms.Label lblFecha;
-        private System.Windows.Forms.Label lblHora;
         private System.Windows.Forms.Timer horaFecha;
         private System.Windows.Forms.Panel panelSubmenuFact;
         private System.Windows.Forms.Button btnConsultaFV;
@@ -358,6 +356,9 @@
         private System.Windows.Forms.Panel pnlServicios;
         private System.Windows.Forms.Button btnFibraOptica;
         private System.Windows.Forms.Button btnVideoCable;
-        private System.Windows.Forms.Button btnEgreso;
+        private System.Windows.Forms.Button btnCajas;
+        private System.Windows.Forms.Label lblHora;
+        private System.Windows.Forms.Label lblFecha;
+        public System.Windows.Forms.Panel panelDesktop;
     }
 }
