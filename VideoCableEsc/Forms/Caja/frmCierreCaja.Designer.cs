@@ -52,6 +52,7 @@
             this.btnAbrirCaja.TabIndex = 9;
             this.btnAbrirCaja.Text = "Abrir Caja";
             this.btnAbrirCaja.UseVisualStyleBackColor = true;
+            this.btnAbrirCaja.Click += new System.EventHandler(this.btnAbrirCaja_Click);
             // 
             // dpkFecha
             // 

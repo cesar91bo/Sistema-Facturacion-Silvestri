@@ -118,7 +118,7 @@ namespace VideoCableEsc
         }
         #endregion
 
-        #region Abrir Form hijo
+        #region Formularios y Submenú
         public void OpenChildForm(Form childForm, object btnSender)
         {
             if (activeForm!= null)
@@ -137,53 +137,65 @@ namespace VideoCableEsc
             lblTittle.Text = childForm.Text;
 
         }
+
+        private void OcultarPanelesSubMenu()
+        {
+            if (pnlSubMenuClientes.Visible == true)
+                pnlSubMenuClientes.Visible = false;
+            if (pnlSubmenuFact.Visible == true)
+                pnlSubmenuFact.Visible = false;
+            if (pnlSubMenuReporte.Visible == true)
+                pnlSubMenuReporte.Visible = false;
+        }
+
+        private void MostrarPanelSubMenu(Panel subMenu)
+        {
+            if (subMenu.Visible == false)
+            {
+                OcultarPanelesSubMenu();
+                subMenu.Visible = true;
+            }
+            else
+            {
+                subMenu.Visible = false;
+            }
+        }
         #endregion
 
         private void btnIndex_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmIndex(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void btnCliente_Click(object sender, EventArgs e)
         {
-            //OpenChildForm(new frmConsultaClientes(), sender);
-            if (pnlServicios.Visible == false)
-            {
-                pnlServicios.Visible = true;
-            }
-            else
-            {
-                pnlServicios.Visible = false;
-            }
+            ActivarBoton(sender);
+            MostrarPanelSubMenu(pnlSubMenuClientes);
         }
 
         private void btnServicios_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmServices(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void btnCajasDis_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmCajasDistribuciones(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void btnFactura_Click(object sender, EventArgs e)
         {
-            if (panelSubmenuFact.Visible == false)
-            {
-                panelSubmenuFact.Visible = true;
-                panelSubMenuReporte.Visible = false;
-            }
-            else
-            {
-                panelSubmenuFact.Visible = false;
-            }
-            
+            ActivarBoton(sender);
+            MostrarPanelSubMenu(pnlSubmenuFact);
         }
 
         private void btnSetting_Click(object sender, EventArgs e)
         {           
             OpenChildForm(new frmSettings(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void horaFecha_Tick(object sender, EventArgs e)
@@ -194,94 +206,62 @@ namespace VideoCableEsc
 
         private void btnFacturaX_Click(object sender, EventArgs e)
         {
-            panelSubmenuFact.Visible=true;
             OpenChildForm(new frmGenFacturaPorCliente(), sender);
-        }
-
-        private void btnFactElec_Click(object sender, EventArgs e)
-        {
-            panelSubmenuFact.Visible = false;
-            OpenChildForm(new frmFactura { Accion = "ALTA" }, sender);
+            OcultarPanelesSubMenu();
         }
 
         private void btnConsultaFV_Click(object sender, EventArgs e)
         {
-            panelSubmenuFact.Visible = false;
-            //OpenChildForm(new frmConsFactura(), sender);
             OpenChildForm(new frmClienteFactura(), sender);
-            
+            OcultarPanelesSubMenu();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            panelSubmenuFact.Visible = false;
             OpenChildForm(new PruebaReporteFactura(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void pruebaFactura_Click(object sender, EventArgs e)
         {
-            panelSubmenuFact.Visible = false;
             OpenChildForm(new PruebaReporteFactura(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void Reportes_Click(object sender, EventArgs e)
         {
-            if (panelSubMenuReporte.Visible == false)
-            {
-                panelSubMenuReporte.Visible = true;
-                panelSubmenuFact.Visible = false;
-            }
-            else
-            {
-                panelSubMenuReporte.Visible = false;
-            }
-
-            
+            ActivarBoton(sender);
+            MostrarPanelSubMenu(pnlSubMenuReporte);
         }
 
         private void btnConsVentas_Click(object sender, EventArgs e)
         {
-            panelSubMenuReporte.Visible = false;
             OpenChildForm(new FormReportes(), sender);
+            OcultarPanelesSubMenu();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            panelSubMenuReporte.Visible = false;
             OpenChildForm(new FormPresupuesto(), sender);
-        }
-
-        private void pnlServicios_Paint(object sender, PaintEventArgs e)
-        {
-
+            OcultarPanelesSubMenu();
         }
 
         private void btnFibraOptica_Click(object sender, EventArgs e)
         {
-            pnlServicios.Visible = false;
+            pnlSubMenuClientes.Visible = false;
             OpenChildForm(new frmFibraOptica(), sender);           
         }
 
         private void btnVideoCable_Click(object sender, EventArgs e)
         {
-            pnlServicios.Visible = false;
             OpenChildForm(new frmVideoCable(), sender);
+            OcultarPanelesSubMenu();
         }
 
-        private void frmPrincipal_Load(object sender, EventArgs e)
+        private void btnCajas_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void panelMenu_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void btnEgreso_Click(object sender, EventArgs e)
-        {
-            var frmRegistro = new frmRegistroEgreso();
-            frmRegistro.ShowDialog();
+            OpenChildForm(new frmCaja(), sender);
+            OcultarPanelesSubMenu();
         }
     }
 }

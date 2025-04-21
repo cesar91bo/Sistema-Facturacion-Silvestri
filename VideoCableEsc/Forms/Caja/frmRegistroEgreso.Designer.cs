@@ -28,23 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtMontoSistema = new System.Windows.Forms.TextBox();
+            this.components = new System.ComponentModel.Container();
+            this.txtMonto = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblAbrir = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtMotivo = new System.Windows.Forms.TextBox();
             this.dpkFecha = new System.Windows.Forms.DateTimePicker();
             this.lblFecha = new System.Windows.Forms.Label();
             this.btnEgreso = new System.Windows.Forms.Button();
+            this.error = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtMontoSistema
+            // txtMonto
             // 
-            this.txtMontoSistema.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMontoSistema.Location = new System.Drawing.Point(319, 181);
-            this.txtMontoSistema.MaxLength = 12;
-            this.txtMontoSistema.Name = "txtMontoSistema";
-            this.txtMontoSistema.Size = new System.Drawing.Size(174, 31);
-            this.txtMontoSistema.TabIndex = 17;
+            this.txtMonto.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMonto.Location = new System.Drawing.Point(319, 181);
+            this.txtMonto.MaxLength = 12;
+            this.txtMonto.Name = "txtMonto";
+            this.txtMonto.Size = new System.Drawing.Size(174, 31);
+            this.txtMonto.TabIndex = 17;
+            this.txtMonto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMontoSistema_KeyPress);
             // 
             // label1
             // 
@@ -66,15 +70,15 @@
             this.lblAbrir.TabIndex = 12;
             this.lblAbrir.Text = "Montivo de Egreso";
             // 
-            // textBox3
+            // txtMotivo
             // 
-            this.textBox3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(139, 65);
-            this.textBox3.MaxLength = 12;
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(518, 90);
-            this.textBox3.TabIndex = 18;
+            this.txtMotivo.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMotivo.Location = new System.Drawing.Point(139, 65);
+            this.txtMotivo.MaxLength = 100;
+            this.txtMotivo.Multiline = true;
+            this.txtMotivo.Name = "txtMotivo";
+            this.txtMotivo.Size = new System.Drawing.Size(518, 90);
+            this.txtMotivo.TabIndex = 18;
             // 
             // dpkFecha
             // 
@@ -105,6 +109,11 @@
             this.btnEgreso.TabIndex = 21;
             this.btnEgreso.Text = "Guardar";
             this.btnEgreso.UseVisualStyleBackColor = true;
+            this.btnEgreso.Click += new System.EventHandler(this.btnEgreso_Click);
+            // 
+            // error
+            // 
+            this.error.ContainerControl = this;
             // 
             // frmRegistroEgreso
             // 
@@ -114,12 +123,13 @@
             this.Controls.Add(this.btnEgreso);
             this.Controls.Add(this.dpkFecha);
             this.Controls.Add(this.lblFecha);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.txtMontoSistema);
+            this.Controls.Add(this.txtMotivo);
+            this.Controls.Add(this.txtMonto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblAbrir);
             this.Name = "frmRegistroEgreso";
             this.Text = "Registro de Egreso";
+            ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,12 +137,13 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtMontoSistema;
+        private System.Windows.Forms.TextBox txtMonto;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblAbrir;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtMotivo;
         private System.Windows.Forms.DateTimePicker dpkFecha;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Button btnEgreso;
+        private System.Windows.Forms.ErrorProvider error;
     }
 }

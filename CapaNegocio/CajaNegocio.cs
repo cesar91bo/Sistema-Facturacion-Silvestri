@@ -65,5 +65,52 @@ namespace CapaNegocio
             }
             
         }
+
+        public ResultadoOperacion GuardarEgreso(CajasEgresos cajasEgresos)
+        {
+            ResultadoOperacion resultado = new ResultadoOperacion();
+
+            try
+            {
+                cajasEgresos.Fecha = DateTime.Now;
+                cajasEgresos.Usuario = 1;
+
+                db.CajasEgresos.Add(cajasEgresos);
+                db.SaveChanges();
+
+                resultado.EsExitoso = true;
+                resultado.Mensaje = "Egreso guardado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                resultado.EsExitoso = false;
+                resultado.Mensaje = "Ocurrió un error al guardar: " + ex.Message;
+            }
+
+            return resultado;
+        }
+
+        public ResultadoOperacion EditarMontoCajaDiaria(CajasDiarias cajasDiarias)
+        {
+            ResultadoOperacion resultado = new ResultadoOperacion();
+            try
+            {
+                CajasDiarias getCaja = new CajasDiarias();
+                getCaja = db.CajasDiarias.OrderByDescending(c => c.IdCajaDiaria == cajasDiarias.IdCajaDiaria).FirstOrDefault();
+
+                getCaja.MontoFinal = cajasDiarias.MontoFinal;
+
+                db.CajasDiarias.Add(getCaja);
+                db.SaveChanges();
+                resultado.EsExitoso = true;
+                resultado.Mensaje = "Edición guardado correctamente.";
+            }
+            catch (Exception ex) 
+            {
+                resultado.EsExitoso = false;
+                resultado.Mensaje = "Ocurrió un error al editar caja: " + ex.Message;
+            }
+            return resultado;
+        }
     }
 }

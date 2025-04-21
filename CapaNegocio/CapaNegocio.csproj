@@ -73,6 +73,7 @@
     <Compile Include="LoginNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportePresupuestoNegocio.cs" />
+    <Compile Include="ResultadoOperacion.cs" />
     <Compile Include="ServicioNegocio.cs" />
     <Compile Include="ServiciosNegocio.cs" />
     <Compile Include="Users.cs" />

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace VideoCableEsc.Forms.Caja
 {
-    public partial class frmCierreCaja : Form
+    public partial class frmCaja : Form
     {
-        public frmCierreCaja()
+        public frmCaja()
         {
             InitializeComponent();
-        }
-
-        private void btnAbrirCaja_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
