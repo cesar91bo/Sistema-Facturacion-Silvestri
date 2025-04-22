@@ -154,6 +154,7 @@
           <Property Name="MontoFinal" Type="decimal" Precision="18" Scale="2" />
           <Property Name="UsuarioCierre" Type="int" />
           <Property Name="Estado" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="CajasDistribuciones">
           <Key>
@@ -11726,6 +11727,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <Property Name="Estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CajasEgresos" Relationship="SgPymeBaseModel.FK_CajasEgresos_CajasDiarias" FromRole="CajasDiarias" ToRole="CajasEgresos" />
           <NavigationProperty Name="CajaMediosPagos" Relationship="SgPymeBaseModel.FK_CajaMediosPagos_CajasDiarias" FromRole="CajasDiarias" ToRole="CajaMediosPagos" />
+          <Property Name="Observaciones" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CajasEgresos">
           <Key>
@@ -14650,6 +14652,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <EntitySetMapping Name="CajasDiarias">
             <EntityTypeMapping TypeName="SgPymeBaseModel.CajasDiarias">
               <MappingFragment StoreEntitySet="CajasDiarias">
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="UsuarioCierre" ColumnName="UsuarioCierre" />
                 <ScalarProperty Name="MontoFinal" ColumnName="MontoFinal" />

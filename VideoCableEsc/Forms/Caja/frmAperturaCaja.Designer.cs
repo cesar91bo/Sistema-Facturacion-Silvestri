@@ -98,7 +98,7 @@
             this.Controls.Add(this.lblAbrir);
             this.Name = "frmAperturaCaja";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmAperturaCaja";
+            this.Text = "Apertura de Caja";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -390,14 +390,18 @@ namespace CapaNegocio
 
         public List<VistaCabFactVenta> BuscarFacturasFechaDesdeFechaHasta(DateTime? fechaDesde, DateTime? fechaHasta)
         {
+            if (fechaDesde.HasValue && fechaHasta.HasValue && fechaDesde.Value.Date == fechaHasta.Value.Date)
+            {
+                fechaHasta = fechaHasta.Value.Date.AddDays(1).AddMilliseconds(-1);
+                // .Date elimina la parte de la hora, dejando solo la fecha a medianoche
+            }
 
             var listado = db.VistaCabFactVenta
                 .Where(x => (fechaDesde == null || x.FechaEmision >= fechaDesde.Value)
                     && (fechaHasta == null || x.FechaEmision <= fechaHasta.Value))
                 .ToList();
 
-            return listado.OrderBy(o => o.Cliente).ToList(); ;
-
+            return listado.OrderBy(o => o.Cliente).ToList();
         }
 
         public bool ObtenerFacturaSinPagarPorCliente(int nroCliente)

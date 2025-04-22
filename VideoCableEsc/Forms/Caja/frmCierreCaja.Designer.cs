@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnAbrirCaja = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
+            this.btnCerrarCaja = new System.Windows.Forms.Button();
             this.dpkFecha = new System.Windows.Forms.DateTimePicker();
             this.lblFecha = new System.Windows.Forms.Label();
             this.txtMontoFinal = new System.Windows.Forms.TextBox();
@@ -39,20 +40,22 @@
             this.txtMontoEgresado = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtTotalVenta = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtObservaciones = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.error = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnAbrirCaja
+            // btnCerrarCaja
             // 
-            this.btnAbrirCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAbrirCaja.Location = new System.Drawing.Point(285, 432);
-            this.btnAbrirCaja.Name = "btnAbrirCaja";
-            this.btnAbrirCaja.Size = new System.Drawing.Size(179, 46);
-            this.btnAbrirCaja.TabIndex = 9;
-            this.btnAbrirCaja.Text = "Abrir Caja";
-            this.btnAbrirCaja.UseVisualStyleBackColor = true;
-            this.btnAbrirCaja.Click += new System.EventHandler(this.btnAbrirCaja_Click);
+            this.btnCerrarCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCerrarCaja.Location = new System.Drawing.Point(285, 432);
+            this.btnCerrarCaja.Name = "btnCerrarCaja";
+            this.btnCerrarCaja.Size = new System.Drawing.Size(179, 46);
+            this.btnCerrarCaja.TabIndex = 9;
+            this.btnCerrarCaja.Text = "Cerrar Caja";
+            this.btnCerrarCaja.UseVisualStyleBackColor = true;
+            this.btnCerrarCaja.Click += new System.EventHandler(this.btnAbrirCaja_Click);
             // 
             // dpkFecha
             // 
@@ -82,6 +85,7 @@
             this.txtMontoFinal.Name = "txtMontoFinal";
             this.txtMontoFinal.Size = new System.Drawing.Size(174, 31);
             this.txtMontoFinal.TabIndex = 6;
+            this.txtMontoFinal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMontoFinal_KeyPress);
             // 
             // lblAbrir
             // 
@@ -153,15 +157,15 @@
             this.txtTotalVenta.Size = new System.Drawing.Size(174, 31);
             this.txtTotalVenta.TabIndex = 15;
             // 
-            // textBox3
+            // txtObservaciones
             // 
-            this.textBox3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(94, 325);
-            this.textBox3.MaxLength = 12;
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(518, 90);
-            this.textBox3.TabIndex = 16;
+            this.txtObservaciones.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtObservaciones.Location = new System.Drawing.Point(94, 325);
+            this.txtObservaciones.MaxLength = 12;
+            this.txtObservaciones.Multiline = true;
+            this.txtObservaciones.Name = "txtObservaciones";
+            this.txtObservaciones.Size = new System.Drawing.Size(518, 90);
+            this.txtObservaciones.TabIndex = 16;
             // 
             // label4
             // 
@@ -173,26 +177,32 @@
             this.label4.TabIndex = 17;
             this.label4.Text = "Observaciones";
             // 
+            // error
+            // 
+            this.error.ContainerControl = this;
+            // 
             // frmCierreCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(729, 490);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtObservaciones);
             this.Controls.Add(this.txtTotalVenta);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtMontoEgresado);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtMontoSistema);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnAbrirCaja);
+            this.Controls.Add(this.btnCerrarCaja);
             this.Controls.Add(this.dpkFecha);
             this.Controls.Add(this.lblFecha);
             this.Controls.Add(this.txtMontoFinal);
             this.Controls.Add(this.lblAbrir);
             this.Name = "frmCierreCaja";
-            this.Text = "frmCierreCaja";
+            this.Text = "Cierre de Caja";
+            this.Load += new System.EventHandler(this.frmCierreCaja_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,7 +210,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnAbrirCaja;
+        private System.Windows.Forms.Button btnCerrarCaja;
         private System.Windows.Forms.DateTimePicker dpkFecha;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.TextBox txtMontoFinal;
@@ -211,7 +221,8 @@
         private System.Windows.Forms.TextBox txtMontoEgresado;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtTotalVenta;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtObservaciones;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ErrorProvider error;
     }
 }

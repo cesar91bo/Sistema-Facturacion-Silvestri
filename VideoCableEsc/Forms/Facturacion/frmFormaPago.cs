@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Spire.Doc;
+using VideoCableEsc.Forms.Caja;
 
 namespace VideoCableEsc.Forms.Facturacion
 {
@@ -25,6 +26,8 @@ namespace VideoCableEsc.Forms.Facturacion
         EmpresaNegocio empresaN = new EmpresaNegocio();
         public int IdFactura;
         VistaCabFactVenta factura = new VistaCabFactVenta();
+        CajaNegocio cajaNegocio = new CajaNegocio();
+        CajasDiarias cajaDiaria = new CajasDiarias();
         public frmFormaPago()
         {
             InitializeComponent();
@@ -52,49 +55,77 @@ namespace VideoCableEsc.Forms.Facturacion
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (Validaciones())
+            {
+                if (factura != null)
+                {
+                    FacturasVenta facturaVenta = facturasVentaNegocio.BuscarFacturaVentaPorId(factura.IdFacturaVenta);
+
+                    facturaVenta.IdFormaPago = (short)cmbFPago.SelectedValue;
+
+                    facturasVentaNegocio.EditarFacturaVenta(facturaVenta);
+
+                    if(cajaDiaria != null && facturaVenta.IdFormaPago == 1)
+                    {
+                        decimal montoFactura = facturaVenta.Total;
+                        cajaNegocio.EditarMontoCajaDiaria(montoFactura, cajaDiaria.IdCajaDiaria);
+                    }
+                }
+
+
+                string tipoFactura = rbFacturaX.Checked ? "Factura X" : "Factura Electrónica";
+
+                if (tipoFactura == "Factura Electrónica")
+                {
+                    var listado = new List<int>();
+
+                    listado.Add(IdFactura);
+
+                    var frmc = new frmFacturaElectronica() { ListFacturas = listado, bocaVenta = "003" };
+
+                    frmc.ShowDialog();
+                }
+                else
+                {
+                    var numeroComprobante = IdFactura.ToString();
+
+                    CargarPdf(numeroComprobante);
+                }
+            }
+            Close();
+        }
+
+        private bool Validaciones()
+        {
 
             if (!rbFacturaX.Checked && !rbFacturaElectronica.Checked)
             {
                 MessageBox.Show("Debe seleccionar un tipo de factura.");
-                return;
+                return false;
             }
 
-            //Actualiza Forma de Pago
-            //if (cmbFPago.SelectedIndex == 0)
-            //{
-            //    cmbFPago.SelectedIndex = 1;
-            //}
+            cajaDiaria = cajaNegocio.ObtenerCajaActual();
 
-            if (factura != null)
+            if (cajaDiaria == null)
             {
-                FacturasVenta facturaVenta = facturasVentaNegocio.BuscarFacturaVentaPorId(factura.IdFacturaVenta);
+                DialogResult respuesta = MessageBox.Show("No se abrió ninguna caja para el día de hoy. ¿Desea hacerlo ahora?", "Caja no abierta",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                facturaVenta.IdFormaPago = (short)cmbFPago.SelectedValue;
+                if (respuesta == DialogResult.Yes)
+                {
+                    frmAperturaCaja frm = new frmAperturaCaja();
+                    frm.ShowDialog();
 
-                facturasVentaNegocio.EditarFacturaVenta(facturaVenta);
+                    cajaDiaria = cajaNegocio.ObtenerCajaActual();
+                    if (cajaDiaria == null || cajaDiaria.IdCajaDiaria == 0)
+                    {
+                        MessageBox.Show("No se pudo abrir la caja. Operación cancelada.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
             }
 
-
-            string tipoFactura = rbFacturaX.Checked ? "Factura X" : "Factura Electrónica";
-
-            if (tipoFactura == "Factura Electrónica")
-            {
-                var listado = new List<int>();
-
-                listado.Add(IdFactura);
-
-                var frmc = new frmFacturaElectronica() { ListFacturas = listado, bocaVenta = "003" };
-
-                frmc.ShowDialog();
-            }
-            else
-            {
-                var numeroComprobante = IdFactura.ToString();
-
-                CargarPdf(numeroComprobante);
-            }
-
-            Close();
+            return true;
         }
 
         private void CargarPdf(string numeroComprobante)

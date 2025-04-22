@@ -68,7 +68,7 @@ namespace VideoCableEsc.Forms.Caja
                 return false;
             }
             CajaDiaria = cajaNegocio.ObtenerCajaActual();
-            if (CajaDiaria == null)
+            if (CajaDiaria == null || CajaDiaria.Estado != "Abierto")
             {
 
                 DialogResult respuesta = MessageBox.Show("No se abrió ninguna caja para el día de hoy. ¿Desea hacerlo ahora?", "Caja no abierta",
@@ -100,7 +100,7 @@ namespace VideoCableEsc.Forms.Caja
             }
             else 
             {
-                var resultado = cajaNegocio.EditarMontoCajaDiaria(CajaDiaria);
+                var resultado = cajaNegocio.EditarMontoCajaDiaria(Convert.ToDecimal(txtMonto.Text), CajaDiaria.IdCajaDiaria);
                 if (resultado.EsExitoso == false) 
                 {
                     MessageBox.Show(resultado.Mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
