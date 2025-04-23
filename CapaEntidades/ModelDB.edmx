@@ -597,6 +597,7 @@
           <Property Name="NombreMaquina" Type="varchar" MaxLength="50" />
           <Property Name="Pagado" Type="bit" />
           <Property Name="MesAbonado" Type="varchar" MaxLength="50" />
+          <Property Name="FechaPago" Type="datetime" />
         </EntityType>
         <EntityType Name="FacturasVentaDetalle">
           <Key>
@@ -1657,6 +1658,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaCabFactVenta' no tiene d
           <Property Name="FechaAlta" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Cobrador" Type="bit" Nullable="false" />
           <Property Name="MesAbonado" Type="varchar" MaxLength="50" />
+          <Property Name="FechaPago" Type="datetime" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaCabFactVentaConCaja' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -5004,7 +5006,8 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
     [VistaCabFactVenta].[IdConceptoFactura] AS [IdConceptoFactura], 
     [VistaCabFactVenta].[FechaAlta] AS [FechaAlta], 
     [VistaCabFactVenta].[Cobrador] AS [Cobrador], 
-    [VistaCabFactVenta].[MesAbonado] AS [MesAbonado]
+    [VistaCabFactVenta].[MesAbonado] AS [MesAbonado], 
+    [VistaCabFactVenta].[FechaPago] AS [FechaPago]
     FROM [dbo].[VistaCabFactVenta] AS [VistaCabFactVenta]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VistaCabFactVentaConCaja" EntityType="Self.VistaCabFactVentaConCaja" store:Type="Views" store:Schema="dbo">
@@ -8181,6 +8184,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="Cobrador" Type="Boolean" Nullable="false" />
           <Property Name="MesAbonado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaPago" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="VistaCabFactVentaConCaja">
           <Key>
@@ -11486,6 +11490,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <NavigationProperty Name="FacturasVentaDetalle" Relationship="SgPymeBaseModel.FK_FacturasVentaDetalle_FacturasVenta" FromRole="FacturasVenta" ToRole="FacturasVentaDetalle" />
           <NavigationProperty Name="GeneracionInteres" Relationship="SgPymeBaseModel.FK_GeneracionInteres_FacturasVenta" FromRole="FacturasVenta" ToRole="GeneracionInteres" />
           <NavigationProperty Name="Remitos" Relationship="SgPymeBaseModel.FK_Remitos_FacturasVenta" FromRole="FacturasVenta" ToRole="Remitos" />
+          <Property Name="FechaPago" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_Facturas_Clientes">
           <End Type="SgPymeBaseModel.ClientesCajasDistribucionesServicios" Role="ClientesCajasDistribucionesServicios" Multiplicity="1" />
@@ -13208,6 +13213,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <EntitySetMapping Name="VistaCabFactVenta">
             <EntityTypeMapping TypeName="SgPymeBaseModel.VistaCabFactVenta">
               <MappingFragment StoreEntitySet="VistaCabFactVenta">
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
                 <ScalarProperty Name="MesAbonado" ColumnName="MesAbonado" />
                 <ScalarProperty Name="TipoDoc" ColumnName="TipoDoc" />
                 <ScalarProperty Name="IdFacturaVenta" ColumnName="IdFacturaVenta" />
@@ -14539,6 +14545,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <EntitySetMapping Name="FacturasVenta">
             <EntityTypeMapping TypeName="SgPymeBaseModel.FacturasVenta">
               <MappingFragment StoreEntitySet="FacturasVenta">
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
                 <ScalarProperty Name="MesAbonado" ColumnName="MesAbonado" />
                 <ScalarProperty Name="Pagado" ColumnName="Pagado" />
                 <ScalarProperty Name="NombreMaquina" ColumnName="NombreMaquina" />

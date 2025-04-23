@@ -45,8 +45,8 @@ namespace VideoCableEsc.Forms.Caja
         private void LLenarListaFecha(bool load)
         {
             listCaja.Items.Clear();
-            DateTime desde = dtpDesde.Value;
-            DateTime hasta = dtpHasta.Value;
+            DateTime desde = dtpDesde.Value.Date;
+            DateTime hasta = dtpHasta.Value.Date;
 
             if (load)
             {
@@ -59,10 +59,12 @@ namespace VideoCableEsc.Forms.Caja
 
             if (cajasDiarias.Count > 0) 
             {
-                List<VistaCabFactVenta> facturasVentas = facturasVentaN.BuscarFacturasFechaDesdeFechaHasta(desde, hasta);
+                
                 foreach (var caja in cajasDiarias)
                 {
                     List<CajasEgresos> cajasEgresos = cajaNegocio.ObtenerCajaEgresoPorIdCaja(caja.IdCajaDiaria);
+
+                    List<VistaCabFactVenta> facturasVentas = facturasVentaN.BuscarFacturasFechaDesdeFechaHasta(caja.FechaApertura.Date, caja.FechaApertura.Date);
 
                     ListViewItem item = new ListViewItem(caja.IdCajaDiaria.ToString());
                     item.SubItems.Add(caja.FechaApertura.ToString("dd/MM/yyyy HH:mm") ?? "");
@@ -149,8 +151,22 @@ namespace VideoCableEsc.Forms.Caja
 
         private void btnCerrarCaja_Click(object sender, EventArgs e)
         {
+            CajasDiarias cajaDiaria = cajaNegocio.ObtenerUltimaCaja();
+
+            if (cajaDiaria == null)
+            {
+                MessageBox.Show("No se puede cerrar la caja. No hay una caja abierta.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (cajaDiaria.FechaCierre != null)
+            {
+                MessageBox.Show("La caja ya fue cerrada.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             var frmCierra = new frmCierreCaja();
             frmCierra.ShowDialog();
+
+            LLenarListaFecha(true);
         }
     }
 }

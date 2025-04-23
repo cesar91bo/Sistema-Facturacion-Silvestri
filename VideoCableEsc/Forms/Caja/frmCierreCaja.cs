@@ -41,7 +41,7 @@ namespace VideoCableEsc.Forms.Caja
                 montoEgresos = cajasEgresos.Sum(m => m.Monto);
                 txtMontoEgresado.Text = montoEgresos.ToString("N2");
             }
-            txtMontoSistema.Text = (cajaDiaria.MontoInicial + montoTotalVentas - montoEgresos).ToString("N2");
+            txtMontoSistema.Text = cajaDiaria.MontoFinal.Value.ToString("N2");
         }
 
         private void BuscarCaja()

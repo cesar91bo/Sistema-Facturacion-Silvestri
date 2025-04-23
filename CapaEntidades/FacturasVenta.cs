@@ -60,6 +60,7 @@ namespace CapaEntidades
         public string NombreMaquina { get; set; }
         public Nullable<bool> Pagado { get; set; }
         public string MesAbonado { get; set; }
+        public Nullable<System.DateTime> FechaPago { get; set; }
     
         public virtual ClientesCajasDistribucionesServicios ClientesCajasDistribucionesServicios { get; set; }
         public virtual CondicionesPago CondicionesPago { get; set; }

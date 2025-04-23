@@ -83,7 +83,7 @@ namespace VideoCableEsc.Forms.Facturacion
                     FacturasVenta facturaVenta = facturasVentaNegocio.BuscarFacturaVentaPorId(factura.IdFacturaVenta);
 
                     facturaVenta.IdFormaPago = (short)cmbFPago.SelectedValue;
-
+                    facturaVenta.FechaPago = DateTime.Now;
                     facturasVentaNegocio.EditarFacturaVenta(facturaVenta);
 
                     if (cajaDiaria != null && facturaVenta.IdFormaPago == 1)

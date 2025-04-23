@@ -45,5 +45,6 @@ namespace CapaEntidades
         public System.DateTime FechaAlta { get; set; }
         public bool Cobrador { get; set; }
         public string MesAbonado { get; set; }
+        public Nullable<System.DateTime> FechaPago { get; set; }
     }
 }

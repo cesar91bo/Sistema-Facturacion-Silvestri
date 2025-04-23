@@ -397,8 +397,8 @@ namespace CapaNegocio
             }
 
             var listado = db.VistaCabFactVenta
-                .Where(x => (fechaDesde == null || x.FechaEmision >= fechaDesde.Value)
-                    && (fechaHasta == null || x.FechaEmision <= fechaHasta.Value))
+                .Where(x => (fechaDesde == null || x.FechaPago >= fechaDesde.Value)
+                    && (fechaHasta == null || x.FechaPago <= fechaHasta.Value))
                 .ToList();
 
             return listado.OrderBy(o => o.Cliente).ToList();
