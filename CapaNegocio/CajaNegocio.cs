@@ -159,13 +159,58 @@ namespace CapaNegocio
         {
             try
             {
+                DateTime desde = fechaApertura.Date;
+                DateTime hasta = fechaApertura.Date.AddDays(1);
                 return db.CajasEgresos
-               .Where(c => c.Fecha.Date == fechaApertura.Date)
+               .Where(c => c.Fecha >= desde && c.Fecha < hasta)
                .ToList();
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public List<CajasDiarias> ObtenerCajas()
+        {
+            try
+            {
+                return db.CajasDiarias.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                return new List<CajasDiarias>();
+            }
+        }
+
+        public List<CajasDiarias> ObtenerCajaPorFecha(DateTime desde, DateTime hasta)
+        {
+            try
+            {
+                DateTime fechaDesde = desde.Date;
+                DateTime fechaHasta = hasta.Date.AddDays(1);
+                return db.CajasDiarias
+                    .Where(c => c.FechaApertura >= fechaDesde && c.FechaApertura < fechaHasta)
+                    .ToList();
+            }
+            catch
+            {
+                return new List<CajasDiarias>();
+            }
+        }
+
+
+        public List<CajasEgresos> ObtenerCajaEgresoPorIdCaja(int idCajaDiaria)
+        {
+            try
+            {
+                return db.CajasEgresos.Where(c => c.IdCajaDiaria == idCajaDiaria).ToList();
+            }
+            catch (Exception)
+            {
+
+                return new List<CajasEgresos>();
             }
         }
     }

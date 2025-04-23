@@ -24,7 +24,7 @@ namespace VideoCableEsc.Forms.Caja
 
         private void frmCierreCaja_Load(object sender, EventArgs e)
         {
-            BuscarCajaActual();
+            BuscarCaja();
 
             List<VistaCabFactVenta> facturasVentas = facturasVentaN.BuscarFacturasFechaDesdeFechaHasta(cajaDiaria.FechaApertura, cajaDiaria.FechaApertura);
 
@@ -41,9 +41,9 @@ namespace VideoCableEsc.Forms.Caja
             }
         }
 
-        private void BuscarCajaActual()
+        private void BuscarCaja()
         {
-            cajaDiaria = cajaNegocio.ObtenerCajaActual();
+            cajaDiaria = cajaNegocio.ObtenerCajaActual() ?? cajaNegocio.ObtenerUltimaCaja();
 
             if (cajaDiaria == null)
             {
@@ -81,6 +81,8 @@ namespace VideoCableEsc.Forms.Caja
                 }
                 Close();
             }
+            //Arreglar esto esta mal, es: MontoCalculadoSistema = MontoInicial + TotalVentas.Efectivo - TotalEgresos
+
             txtMontoSistema.Text = cajaDiaria.MontoFinal.ToString();
 
         }

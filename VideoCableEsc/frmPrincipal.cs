@@ -260,7 +260,7 @@ namespace VideoCableEsc
 
         private void btnCajas_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmCaja(), sender);
+            OpenChildForm(new frmCaja { load = true}, sender);
             OcultarPanelesSubMenu();
         }
     }
