@@ -152,7 +152,7 @@ namespace VideoCableEsc
 
                         if (cajaNegocio.ExisteCajaAnteriorSinCerrar())
                         {
-                            DialogResult result = MessageBox.Show("Atención: la caja anterior no fue cerrada. ¿Desea cerrar ahora?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            DialogResult result = MessageBox.Show(this,"Atención: la caja anterior no fue cerrada. ¿Desea cerrar ahora?", "Advertencia", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                             if (result == DialogResult.Yes)
                             {
                                 var frmCerrarCaja = new frmCierreCaja();
@@ -163,7 +163,7 @@ namespace VideoCableEsc
                         CajasDiarias cajaActual = cajaNegocio.ObtenerCajaActual();
                         if (cajaActual == null)
                         {
-                            DialogResult result = MessageBox.Show("La caja no se ha abierto. ¿Desea abrirla ahora?", "ABRIR CAJA",
+                            DialogResult result = MessageBox.Show(this,"La caja no se ha abierto. ¿Desea abrirla ahora?", "ABRIR CAJA",
                                 MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question);
                             if (result == DialogResult.Yes)

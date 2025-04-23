@@ -91,17 +91,26 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public ResultadoOperacion EditarMontoCajaDiaria(decimal monto, int idCajaDiaria)
+        public ResultadoOperacion EditarMontoCajaDiaria(decimal montoTotal, decimal vuelto, int idCajaDiaria)
         {
             ResultadoOperacion resultado = new ResultadoOperacion();
             try
             {
                 CajasDiarias getCaja = new CajasDiarias();
-                getCaja = db.CajasDiarias.OrderByDescending(c => c.IdCajaDiaria == idCajaDiaria).FirstOrDefault();
+                getCaja = db.CajasDiarias.FirstOrDefault(c => c.IdCajaDiaria == idCajaDiaria);
+
+                //List<CajasEgresos> getEgreso = db.CajasEgresos.Where(c => c.IdCajaDiaria == getCaja.IdCajaDiaria).ToList();
+
+                //decimal totalEgresos = 0;
+
+                //if (getEgreso != null)
+                //{
+                //    totalEgresos += getEgreso.Sum(c => c.Monto);
+                //}
 
                 if (getCaja != null)
                 {
-                    getCaja.MontoFinal = getCaja.MontoFinal + monto;
+                    getCaja.MontoFinal = (getCaja.MontoFinal ?? getCaja.MontoInicial) + (montoTotal-vuelto);
 
                     db.SaveChanges();
                     resultado.EsExitoso = true;
@@ -129,20 +138,23 @@ namespace CapaNegocio
                 CajasDiarias getCaja = new CajasDiarias();
                 getCaja = db.CajasDiarias.OrderByDescending(c => c.IdCajaDiaria == cajaDiaria.IdCajaDiaria).FirstOrDefault();
 
+                
+
                 if (getCaja != null)
                 {
-                    getCaja.MontoFinal = getCaja.MontoFinal + cajaDiaria.MontoFinal;
+                    getCaja.MontoFinal = getCaja.MontoFinal;
                     getCaja.Estado = cajaDiaria.Estado;
                     getCaja.FechaCierre = cajaDiaria.FechaCierre;
                     getCaja.Observaciones = cajaDiaria.Observaciones;
 
                     db.SaveChanges();
                     resultado.Mensaje = "Se cerró la caja correctamente.";
+                    resultado.EsExitoso = true;
                 }
                 else
                 {
-                    resultado.EsExitoso = false;
                     resultado.Mensaje = "No se encontró la caja a cerrar.";
+                    resultado.EsExitoso = false;
                 }
             }
             catch (Exception ex)

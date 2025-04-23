@@ -16,6 +16,8 @@ using System.Windows.Forms;
 using System.IO;
 using Spire.Doc;
 using VideoCableEsc.Forms.Caja;
+using Microsoft.VisualBasic;
+
 
 namespace VideoCableEsc.Forms.Facturacion
 {
@@ -57,22 +59,6 @@ namespace VideoCableEsc.Forms.Facturacion
         {
             if (Validaciones())
             {
-                if (factura != null)
-                {
-                    FacturasVenta facturaVenta = facturasVentaNegocio.BuscarFacturaVentaPorId(factura.IdFacturaVenta);
-
-                    facturaVenta.IdFormaPago = (short)cmbFPago.SelectedValue;
-
-                    facturasVentaNegocio.EditarFacturaVenta(facturaVenta);
-
-                    if(cajaDiaria != null && facturaVenta.IdFormaPago == 1)
-                    {
-                        decimal montoFactura = facturaVenta.Total;
-                        cajaNegocio.EditarMontoCajaDiaria(montoFactura, cajaDiaria.IdCajaDiaria);
-                    }
-                }
-
-
                 string tipoFactura = rbFacturaX.Checked ? "Factura X" : "Factura Electrónica";
 
                 if (tipoFactura == "Factura Electrónica")
@@ -91,8 +77,39 @@ namespace VideoCableEsc.Forms.Facturacion
 
                     CargarPdf(numeroComprobante);
                 }
+
+                if (factura != null)
+                {
+                    FacturasVenta facturaVenta = facturasVentaNegocio.BuscarFacturaVentaPorId(factura.IdFacturaVenta);
+
+                    facturaVenta.IdFormaPago = (short)cmbFPago.SelectedValue;
+
+                    facturasVentaNegocio.EditarFacturaVenta(facturaVenta);
+
+                    if (cajaDiaria != null && facturaVenta.IdFormaPago == 1)
+                    {
+                        var respuesta = MessageBox.Show("¿Tuvo que dar vuelto?", "Vuelto", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        decimal vuelto = 0;
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            string input = Microsoft.VisualBasic.Interaction.InputBox("Ingrese el monto de vuelto entregado:", "Vuelto", "0.00");
+
+                            if (!decimal.TryParse(input, out vuelto))
+                            {
+                                MessageBox.Show("Monto de vuelto inválido.");
+                                return;
+                            }
+                        }
+                        decimal totalVenta = factura.Total;
+                        decimal ingresoCaja = totalVenta;
+                        cajaNegocio.EditarMontoCajaDiaria(totalVenta, vuelto, cajaDiaria.IdCajaDiaria);
+                        
+                    }
+                    Close();
+                }
             }
-            Close();
+            //Close();
         }
 
         private bool Validaciones()

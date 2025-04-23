@@ -47,18 +47,20 @@
             this.cmbFPago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbFPago.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbFPago.FormattingEnabled = true;
-            this.cmbFPago.Location = new System.Drawing.Point(209, 49);
+            this.cmbFPago.Location = new System.Drawing.Point(279, 60);
+            this.cmbFPago.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbFPago.Name = "cmbFPago";
-            this.cmbFPago.Size = new System.Drawing.Size(191, 24);
+            this.cmbFPago.Size = new System.Drawing.Size(253, 28);
             this.cmbFPago.TabIndex = 44;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(95, 50);
+            this.label5.Location = new System.Drawing.Point(127, 62);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(109, 17);
+            this.label5.Size = new System.Drawing.Size(128, 20);
             this.label5.TabIndex = 45;
             this.label5.Text = "Forma de Pago:";
             // 
@@ -66,25 +68,28 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(109, 13);
+            this.label1.Location = new System.Drawing.Point(145, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 17);
+            this.label1.Size = new System.Drawing.Size(107, 20);
             this.label1.TabIndex = 46;
             this.label1.Text = "Nro. Factura:";
             // 
             // txtNroFact
             // 
             this.txtNroFact.Enabled = false;
-            this.txtNroFact.Location = new System.Drawing.Point(210, 13);
+            this.txtNroFact.Location = new System.Drawing.Point(280, 16);
+            this.txtNroFact.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtNroFact.Name = "txtNroFact";
-            this.txtNroFact.Size = new System.Drawing.Size(100, 20);
+            this.txtNroFact.Size = new System.Drawing.Size(132, 22);
             this.txtNroFact.TabIndex = 47;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(217, 228);
+            this.button1.Location = new System.Drawing.Point(289, 281);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(86, 38);
+            this.button1.Size = new System.Drawing.Size(115, 47);
             this.button1.TabIndex = 67;
             this.button1.Text = "Registrar";
             this.button1.UseVisualStyleBackColor = true;
@@ -94,26 +99,29 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(98, 87);
+            this.label2.Location = new System.Drawing.Point(131, 107);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 17);
+            this.label2.Size = new System.Drawing.Size(123, 20);
             this.label2.TabIndex = 68;
             this.label2.Text = "Monto a Pagar:";
             // 
             // txtMonto
             // 
             this.txtMonto.Enabled = false;
-            this.txtMonto.Location = new System.Drawing.Point(210, 87);
+            this.txtMonto.Location = new System.Drawing.Point(280, 107);
+            this.txtMonto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtMonto.Name = "txtMonto";
-            this.txtMonto.Size = new System.Drawing.Size(100, 20);
+            this.txtMonto.Size = new System.Drawing.Size(132, 22);
             this.txtMonto.TabIndex = 69;
             // 
             // rbFacturaX
             // 
             this.rbFacturaX.AutoSize = true;
-            this.rbFacturaX.Location = new System.Drawing.Point(8, 12);
+            this.rbFacturaX.Location = new System.Drawing.Point(11, 15);
+            this.rbFacturaX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rbFacturaX.Name = "rbFacturaX";
-            this.rbFacturaX.Size = new System.Drawing.Size(71, 17);
+            this.rbFacturaX.Size = new System.Drawing.Size(84, 20);
             this.rbFacturaX.TabIndex = 70;
             this.rbFacturaX.TabStop = true;
             this.rbFacturaX.Text = "Factura X";
@@ -122,9 +130,10 @@
             // rbFacturaElectronica
             // 
             this.rbFacturaElectronica.AutoSize = true;
-            this.rbFacturaElectronica.Location = new System.Drawing.Point(107, 12);
+            this.rbFacturaElectronica.Location = new System.Drawing.Point(143, 15);
+            this.rbFacturaElectronica.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rbFacturaElectronica.Name = "rbFacturaElectronica";
-            this.rbFacturaElectronica.Size = new System.Drawing.Size(117, 17);
+            this.rbFacturaElectronica.Size = new System.Drawing.Size(143, 20);
             this.rbFacturaElectronica.TabIndex = 71;
             this.rbFacturaElectronica.TabStop = true;
             this.rbFacturaElectronica.Text = "Factura Electrónica";
@@ -134,9 +143,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(88, 129);
+            this.label3.Location = new System.Drawing.Point(117, 159);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 17);
+            this.label3.Size = new System.Drawing.Size(131, 20);
             this.label3.TabIndex = 72;
             this.label3.Text = "Tipo de Factura:";
             // 
@@ -144,17 +154,19 @@
             // 
             this.groupBox1.Controls.Add(this.rbFacturaElectronica);
             this.groupBox1.Controls.Add(this.rbFacturaX);
-            this.groupBox1.Location = new System.Drawing.Point(209, 117);
+            this.groupBox1.Location = new System.Drawing.Point(279, 144);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(231, 37);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(308, 46);
             this.groupBox1.TabIndex = 73;
             this.groupBox1.TabStop = false;
             // 
             // frmFormaPago
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 302);
+            this.ClientSize = new System.Drawing.Size(724, 372);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtMonto);
@@ -164,7 +176,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbFPago);
             this.Controls.Add(this.label5);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmFormaPago";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmFormaPago";
             this.Load += new System.EventHandler(this.frmFormaPago_Load);
             this.groupBox1.ResumeLayout(false);

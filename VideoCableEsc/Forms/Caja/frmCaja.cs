@@ -101,11 +101,56 @@ namespace VideoCableEsc.Forms.Caja
 
         private void btnAbrirCaja_Click(object sender, EventArgs e)
         {
-            var frmc = new frmCierreCaja();
+            CajasDiarias caja = cajaNegocio.ObtenerCajaActual();
+            if (caja != null && caja.FechaCierre == null)
+            {
+                MessageBox.Show("Ya existe una caja abierta para el día de hoy.");
+                return;
+            }
+            var frmc = new frmAperturaCaja();
 
             frmc.ShowDialog();
 
             LLenarListaFecha(true);
+        }
+
+        private void btnEgreso_Click(object sender, EventArgs e)
+        {
+            CajasDiarias cajaDiaria = cajaNegocio.ObtenerCajaActual();
+            if (cajaDiaria == null)
+            {
+                DialogResult respuesta = MessageBox.Show("No se abrió ninguna caja para el día de hoy. ¿Desea hacerlo ahora?", "Caja no abierta",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    frmAperturaCaja frm = new frmAperturaCaja();
+                    frm.ShowDialog();
+
+                    cajaDiaria = cajaNegocio.ObtenerCajaActual();
+                    if (cajaDiaria == null || cajaDiaria.IdCajaDiaria == 0)
+                    {
+                        MessageBox.Show("No se pudo abrir la caja. Operación cancelada.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debe abrir una caja para continuar.", "Operación cancelada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Close();
+                }
+            }
+
+            var frmEgreso = new frmRegistroEgreso();
+            frmEgreso.ShowDialog();
+
+            LLenarListaFecha(true);
+        }
+
+        private void btnCerrarCaja_Click(object sender, EventArgs e)
+        {
+            var frmCierra = new frmCierreCaja();
+            frmCierra.ShowDialog();
         }
     }
 }

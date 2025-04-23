@@ -146,6 +146,7 @@
             this.btnEgreso.TabIndex = 61;
             this.btnEgreso.Text = "Egresos";
             this.btnEgreso.UseVisualStyleBackColor = true;
+            this.btnEgreso.Click += new System.EventHandler(this.btnEgreso_Click);
             // 
             // btnCerrarCaja
             // 
@@ -156,6 +157,7 @@
             this.btnCerrarCaja.TabIndex = 62;
             this.btnCerrarCaja.Text = "Cerrar Caja";
             this.btnCerrarCaja.UseVisualStyleBackColor = true;
+            this.btnCerrarCaja.Click += new System.EventHandler(this.btnCerrarCaja_Click);
             // 
             // frmCaja
             // 

@@ -47,7 +47,7 @@
             this.txtMonto.MaxLength = 12;
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(174, 31);
-            this.txtMonto.TabIndex = 17;
+            this.txtMonto.TabIndex = 2;
             this.txtMonto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMontoSistema_KeyPress);
             // 
             // label1
@@ -78,7 +78,7 @@
             this.txtMotivo.Multiline = true;
             this.txtMotivo.Name = "txtMotivo";
             this.txtMotivo.Size = new System.Drawing.Size(518, 90);
-            this.txtMotivo.TabIndex = 18;
+            this.txtMotivo.TabIndex = 1;
             // 
             // dpkFecha
             // 
@@ -128,6 +128,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblAbrir);
             this.Name = "frmRegistroEgreso";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registro de Egreso";
             ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
             this.ResumeLayout(false);

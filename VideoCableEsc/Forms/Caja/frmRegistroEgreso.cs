@@ -41,6 +41,7 @@ namespace VideoCableEsc.Forms.Caja
                 {
                     MessageBox.Show(resultado.Mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                Close();
             }
         }
 
@@ -100,7 +101,9 @@ namespace VideoCableEsc.Forms.Caja
             }
             else 
             {
-                var resultado = cajaNegocio.EditarMontoCajaDiaria(Convert.ToDecimal(txtMonto.Text), CajaDiaria.IdCajaDiaria);
+                //Envío en negativo para descontar la caja final
+                decimal totalEgreso = Convert.ToDecimal(txtMonto.Text);
+                var resultado = cajaNegocio.EditarMontoCajaDiaria(-totalEgreso, 0, CajaDiaria.IdCajaDiaria);
                 if (resultado.EsExitoso == false) 
                 {
                     MessageBox.Show(resultado.Mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

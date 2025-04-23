@@ -27,18 +27,21 @@ namespace VideoCableEsc.Forms.Caja
             BuscarCaja();
 
             List<VistaCabFactVenta> facturasVentas = facturasVentaN.BuscarFacturasFechaDesdeFechaHasta(cajaDiaria.FechaApertura, cajaDiaria.FechaApertura);
-
+            decimal montoTotalVentas = 0;
             if (facturasVentas != null && facturasVentas.Any())
             {
-                txtTotalVenta.Text = facturasVentas.Sum(f => f.Total).ToString();
+                montoTotalVentas = facturasVentas.Sum(f => f.Total);
+                txtTotalVenta.Text = montoTotalVentas.ToString("N2");
             }
 
             List<CajasEgresos> cajasEgresos = cajaNegocio.ObtenerCajaEgresoPorFecha(cajaDiaria.FechaApertura);
-
+            decimal montoEgresos = 0;
             if (cajasEgresos != null && cajasEgresos.Any())
             {
-                txtMontoEgresado.Text = cajasEgresos.Sum(m => m.Monto).ToString();
+                montoEgresos = cajasEgresos.Sum(m => m.Monto);
+                txtMontoEgresado.Text = montoEgresos.ToString("N2");
             }
+            txtMontoSistema.Text = (cajaDiaria.MontoInicial + montoTotalVentas - montoEgresos).ToString("N2");
         }
 
         private void BuscarCaja()
@@ -81,10 +84,6 @@ namespace VideoCableEsc.Forms.Caja
                 }
                 Close();
             }
-            //Arreglar esto esta mal, es: MontoCalculadoSistema = MontoInicial + TotalVentas.Efectivo - TotalEgresos
-
-            txtMontoSistema.Text = cajaDiaria.MontoFinal.ToString();
-
         }
 
         private void btnAbrirCaja_Click(object sender, EventArgs e)
@@ -102,7 +101,7 @@ namespace VideoCableEsc.Forms.Caja
 
                 if (resultado.EsExitoso)
                 {
-                    MessageBox.Show("Se cerró la caja correctamente.");
+                    MessageBox.Show("Se cerró la caja correctamente.", "Caja", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -120,7 +119,13 @@ namespace VideoCableEsc.Forms.Caja
                 txtMontoFinal.Focus();
                 return false;
             }
-            if (cajaDiaria.MontoFinal != Convert.ToDecimal(txtMontoFinal.Text) && txtObservaciones.Text == "")
+
+            if (cajaDiaria.MontoFinal == null)
+            {
+                cajaDiaria.MontoFinal = cajaDiaria.MontoInicial;
+            }
+            decimal montoFinalUsuario = Math.Round(Convert.ToDecimal(txtMontoFinal.Text), 2);
+            if (cajaDiaria.MontoFinal != montoFinalUsuario && txtObservaciones.Text == "")
             {
                 error.SetError(txtObservaciones, "Monto final distinto al sistema. Justifique en observaciones.");
                 txtObservaciones.Focus();

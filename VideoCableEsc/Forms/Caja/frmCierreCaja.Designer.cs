@@ -200,6 +200,7 @@
             this.Controls.Add(this.txtMontoFinal);
             this.Controls.Add(this.lblAbrir);
             this.Name = "frmCierreCaja";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cierre de Caja";
             this.Load += new System.EventHandler(this.frmCierreCaja_Load);
             ((System.ComponentModel.ISupportInitialize)(this.error)).EndInit();
