@@ -17,6 +17,8 @@ using VideoCableEsc.Forms;
 using VideoCableEsc.Forms.Reportes;
 using VideoCableEsc.Forms.Cliente;
 using VideoCableEsc.Forms.Caja;
+using CapaEntidades;
+using CapaNegocio;
 
 namespace VideoCableEsc
 {
@@ -262,6 +264,22 @@ namespace VideoCableEsc
         {
             OpenChildForm(new frmCaja { load = true}, sender);
             OcultarPanelesSubMenu();
+        }
+
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+            CajaNegocio cajaNegocio = new CajaNegocio();
+
+            CajasDiarias cajaActual = cajaNegocio.ObtenerCajaActual();
+            if (cajaActual == null || cajaActual.Estado == "Cerrado")
+            {
+                lblCaja.Text = "Caja No Abierta";
+                lblCaja.ForeColor = Color.Red;
+            }
+            else
+            {
+                lblCaja.Text = "Caja Abierta"; ;
+            }
         }
     }
 }

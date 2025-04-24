@@ -57,6 +57,7 @@
             this.lblHora = new System.Windows.Forms.Label();
             this.lblFecha = new System.Windows.Forms.Label();
             this.panelDesktop = new System.Windows.Forms.Panel();
+            this.lblCaja = new System.Windows.Forms.Label();
             this.panelMenu.SuspendLayout();
             this.pnlSubMenuReporte.SuspendLayout();
             this.pnlSubmenuFact.SuspendLayout();
@@ -287,10 +288,17 @@
             // 
             // panelDesktop
             // 
+            this.panelDesktop.Controls.Add(this.lblCaja);
             this.panelDesktop.Controls.Add(this.lblFecha);
             this.panelDesktop.Controls.Add(this.lblHora);
             resources.ApplyResources(this.panelDesktop, "panelDesktop");
             this.panelDesktop.Name = "panelDesktop";
+            // 
+            // lblCaja
+            // 
+            resources.ApplyResources(this.lblCaja, "lblCaja");
+            this.lblCaja.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblCaja.Name = "lblCaja";
             // 
             // frmPrincipal
             // 
@@ -301,6 +309,7 @@
             this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmPrincipal";
+            this.Load += new System.EventHandler(this.frmPrincipal_Load);
             this.panelMenu.ResumeLayout(false);
             this.pnlSubMenuReporte.ResumeLayout(false);
             this.pnlSubmenuFact.ResumeLayout(false);
@@ -346,5 +355,6 @@
         private System.Windows.Forms.Label lblFecha;
         public System.Windows.Forms.Panel panelDesktop;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblCaja;
     }
 }

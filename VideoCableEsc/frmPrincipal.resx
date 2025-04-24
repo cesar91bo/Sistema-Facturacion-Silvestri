@@ -197,7 +197,7 @@
   <data name="btnCajas.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EAAACxABrSO9dQAAAyJJREFUWEftlk2IjlEUx2eQwQiDmfEdavIxRMmCoUiYfE6NUtIgQsrGKClKI6XG
+        DwAACw8BkvkDpQAAAyJJREFUWEftlk2IjlEUx2eQwQiDmfEdavIxRMmCoUiYfE6NUtIgQsrGKClKI6XG
         gljYMIhYEEIWEjaE8W1jy9py1j/93/nfcZ/rfeQ1k405dXruPefec88953/OfcrK+qmPCJgJHADOAO3A
         FmB4uq7PCagCbgAPgG1AA7ASOAp8AHame/qMfPhLYB0wHVhtJ6qBvcBQ4BJwLN3bJwRcB9YD+4AKHRjp
         Ku3QbOAesDy7u5cEzHDYdfMKy1YBu82TgEH+1gPPgKlAeWrrr8iA2+5bFm4OPAGOBAcsWwTUAi+Ah8B7
@@ -1902,7 +1902,7 @@
     <value>panelDesktop</value>
   </data>
   <data name="&gt;&gt;lblHora.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblFecha.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1938,6 +1938,36 @@
     <value>panelDesktop</value>
   </data>
   <data name="&gt;&gt;lblFecha.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblCaja.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblCaja.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 15pt, style=Bold, Italic</value>
+  </data>
+  <data name="lblCaja.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1270, 122</value>
+  </data>
+  <data name="lblCaja.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 36</value>
+  </data>
+  <data name="lblCaja.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblCaja.Text" xml:space="preserve">
+    <value>lblCaja</value>
+  </data>
+  <data name="&gt;&gt;lblCaja.Name" xml:space="preserve">
+    <value>lblCaja</value>
+  </data>
+  <data name="&gt;&gt;lblCaja.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblCaja.Parent" xml:space="preserve">
+    <value>panelDesktop</value>
+  </data>
+  <data name="&gt;&gt;lblCaja.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="panelDesktop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

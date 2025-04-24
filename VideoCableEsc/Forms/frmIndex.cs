@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CapaEntidades;
+using CapaNegocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,7 +27,18 @@ namespace VideoCableEsc.FormBase
 
         private void frmIndex_Load(object sender, EventArgs e)
         {
+            CajaNegocio cajaNegocio = new CajaNegocio();
 
+            CajasDiarias cajaActual = cajaNegocio.ObtenerCajaActual();
+            if (cajaActual == null || cajaActual.Estado == "Cerrado")
+            {
+                lblCaja.Text = "Caja No Abierta";
+                lblCaja.ForeColor = Color.Red;
+            }
+            else
+            {
+                lblCaja.Text = "Caja Abierta"; ;
+            }
         }
     }
 }
