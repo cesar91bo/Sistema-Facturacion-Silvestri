@@ -73,6 +73,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.ClientDoc, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <HintPath>..\packages\CrystalReports.ReportAppServer.ClientDoc.13.0.4003\lib\net40\CrystalDecisions.ReportAppServer.ClientDoc.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -128,6 +131,9 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
@@ -283,6 +289,12 @@
     </Compile>
     <Compile Include="Forms\Caja\frmRegistroEgreso.Designer.cs">
       <DependentUpon>frmRegistroEgreso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Caja\frmRegistroIngreso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Caja\frmRegistroIngreso.Designer.cs">
+      <DependentUpon>frmRegistroIngreso.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ClienteCajaDistribucionServicioEstado\frmConsultaClientesCajasDistribucionServiciosEstados.cs">
       <SubType>Form</SubType>
@@ -491,6 +503,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Caja\frmRegistroEgreso.resx">
       <DependentUpon>frmRegistroEgreso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Caja\frmRegistroIngreso.resx">
+      <DependentUpon>frmRegistroIngreso.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClienteCajaDistribucionServicioEstado\frmConsultaClientesCajasDistribucionServiciosEstados.resx">
       <DependentUpon>frmConsultaClientesCajasDistribucionServiciosEstados.cs</DependentUpon>

@@ -48,7 +48,7 @@
             this.cmbFPago.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbFPago.FormattingEnabled = true;
             this.cmbFPago.Location = new System.Drawing.Point(279, 60);
-            this.cmbFPago.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbFPago.Margin = new System.Windows.Forms.Padding(4);
             this.cmbFPago.Name = "cmbFPago";
             this.cmbFPago.Size = new System.Drawing.Size(253, 28);
             this.cmbFPago.TabIndex = 44;
@@ -79,7 +79,7 @@
             // 
             this.txtNroFact.Enabled = false;
             this.txtNroFact.Location = new System.Drawing.Point(280, 16);
-            this.txtNroFact.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNroFact.Margin = new System.Windows.Forms.Padding(4);
             this.txtNroFact.Name = "txtNroFact";
             this.txtNroFact.Size = new System.Drawing.Size(132, 22);
             this.txtNroFact.TabIndex = 47;
@@ -87,7 +87,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(289, 281);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 47);
             this.button1.TabIndex = 67;
@@ -110,7 +110,7 @@
             // 
             this.txtMonto.Enabled = false;
             this.txtMonto.Location = new System.Drawing.Point(280, 107);
-            this.txtMonto.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMonto.Margin = new System.Windows.Forms.Padding(4);
             this.txtMonto.Name = "txtMonto";
             this.txtMonto.Size = new System.Drawing.Size(132, 22);
             this.txtMonto.TabIndex = 69;
@@ -119,7 +119,7 @@
             // 
             this.rbFacturaX.AutoSize = true;
             this.rbFacturaX.Location = new System.Drawing.Point(11, 15);
-            this.rbFacturaX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbFacturaX.Margin = new System.Windows.Forms.Padding(4);
             this.rbFacturaX.Name = "rbFacturaX";
             this.rbFacturaX.Size = new System.Drawing.Size(84, 20);
             this.rbFacturaX.TabIndex = 70;
@@ -131,7 +131,7 @@
             // 
             this.rbFacturaElectronica.AutoSize = true;
             this.rbFacturaElectronica.Location = new System.Drawing.Point(143, 15);
-            this.rbFacturaElectronica.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbFacturaElectronica.Margin = new System.Windows.Forms.Padding(4);
             this.rbFacturaElectronica.Name = "rbFacturaElectronica";
             this.rbFacturaElectronica.Size = new System.Drawing.Size(143, 20);
             this.rbFacturaElectronica.TabIndex = 71;
@@ -155,9 +155,9 @@
             this.groupBox1.Controls.Add(this.rbFacturaElectronica);
             this.groupBox1.Controls.Add(this.rbFacturaX);
             this.groupBox1.Location = new System.Drawing.Point(279, 144);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(308, 46);
             this.groupBox1.TabIndex = 73;
             this.groupBox1.TabStop = false;
@@ -176,10 +176,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbFPago);
             this.Controls.Add(this.label5);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmFormaPago";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmFormaPago";
+            this.Text = "Forma de Pago";
             this.Load += new System.EventHandler(this.frmFormaPago_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

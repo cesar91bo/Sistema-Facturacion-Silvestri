@@ -100,6 +100,9 @@
     <Compile Include="CajasEgresos.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CajasIngresos.cs">
+      <DependentUpon>ModelDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CajasMovimientos.cs">
       <DependentUpon>ModelDB.tt</DependentUpon>
     </Compile>

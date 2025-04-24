@@ -41,6 +41,15 @@ namespace VideoCableEsc.Forms.Caja
                 montoEgresos = cajasEgresos.Sum(m => m.Monto);
                 txtMontoEgresado.Text = montoEgresos.ToString("N2");
             }
+
+            List<CajasIngresos> cajasIngresos = cajaNegocio.ObtenerCajaIngresoPorFecha(cajaDiaria.FechaApertura);
+            decimal montoIngreso = 0;
+            if (cajasIngresos != null && cajasIngresos.Any())
+            {
+                montoIngreso = cajasIngresos.Sum(m => m.Monto);
+                txtMontoIngresos.Text = montoIngreso.ToString("N2");
+            }
+
             txtMontoSistema.Text = cajaDiaria.MontoFinal.Value.ToString("N2");
         }
 

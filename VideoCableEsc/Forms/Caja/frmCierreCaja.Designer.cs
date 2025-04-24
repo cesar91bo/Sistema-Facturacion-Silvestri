@@ -43,13 +43,15 @@
             this.txtObservaciones = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.error = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txtMontoIngresos = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.error)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCerrarCaja
             // 
             this.btnCerrarCaja.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCerrarCaja.Location = new System.Drawing.Point(285, 432);
+            this.btnCerrarCaja.Location = new System.Drawing.Point(289, 498);
             this.btnCerrarCaja.Name = "btnCerrarCaja";
             this.btnCerrarCaja.Size = new System.Drawing.Size(179, 46);
             this.btnCerrarCaja.TabIndex = 9;
@@ -71,7 +73,7 @@
             // 
             this.lblFecha.AutoSize = true;
             this.lblFecha.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFecha.Location = new System.Drawing.Point(300, 49);
+            this.lblFecha.Location = new System.Drawing.Point(305, 49);
             this.lblFecha.Name = "lblFecha";
             this.lblFecha.Size = new System.Drawing.Size(65, 23);
             this.lblFecha.TabIndex = 7;
@@ -141,7 +143,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(236, 234);
+            this.label3.Location = new System.Drawing.Point(236, 286);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(134, 23);
             this.label3.TabIndex = 14;
@@ -151,7 +153,7 @@
             // 
             this.txtTotalVenta.Enabled = false;
             this.txtTotalVenta.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotalVenta.Location = new System.Drawing.Point(438, 231);
+            this.txtTotalVenta.Location = new System.Drawing.Point(438, 283);
             this.txtTotalVenta.MaxLength = 12;
             this.txtTotalVenta.Name = "txtTotalVenta";
             this.txtTotalVenta.Size = new System.Drawing.Size(174, 31);
@@ -160,7 +162,7 @@
             // txtObservaciones
             // 
             this.txtObservaciones.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtObservaciones.Location = new System.Drawing.Point(94, 325);
+            this.txtObservaciones.Location = new System.Drawing.Point(98, 391);
             this.txtObservaciones.MaxLength = 12;
             this.txtObservaciones.Multiline = true;
             this.txtObservaciones.Name = "txtObservaciones";
@@ -171,7 +173,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(300, 286);
+            this.label4.Location = new System.Drawing.Point(304, 352);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(137, 23);
             this.label4.TabIndex = 17;
@@ -181,11 +183,33 @@
             // 
             this.error.ContainerControl = this;
             // 
+            // txtMontoIngresos
+            // 
+            this.txtMontoIngresos.Enabled = false;
+            this.txtMontoIngresos.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMontoIngresos.Location = new System.Drawing.Point(437, 233);
+            this.txtMontoIngresos.MaxLength = 12;
+            this.txtMontoIngresos.Name = "txtMontoIngresos";
+            this.txtMontoIngresos.Size = new System.Drawing.Size(174, 31);
+            this.txtMontoIngresos.TabIndex = 19;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(148, 238);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(222, 23);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Monto Total Ingresado $:";
+            // 
             // frmCierreCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 490);
+            this.ClientSize = new System.Drawing.Size(729, 578);
+            this.Controls.Add(this.txtMontoIngresos);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtObservaciones);
             this.Controls.Add(this.txtTotalVenta);
@@ -225,5 +249,7 @@
         private System.Windows.Forms.TextBox txtObservaciones;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ErrorProvider error;
+        private System.Windows.Forms.TextBox txtMontoIngresos;
+        private System.Windows.Forms.Label label5;
     }
 }

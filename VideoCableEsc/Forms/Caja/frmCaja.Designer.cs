@@ -39,6 +39,8 @@
             this.btnAbrirCaja = new System.Windows.Forms.Button();
             this.btnEgreso = new System.Windows.Forms.Button();
             this.btnCerrarCaja = new System.Windows.Forms.Button();
+            this.btnExportarPDF = new System.Windows.Forms.Button();
+            this.btnIngleso = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listCaja
@@ -65,6 +67,7 @@
             this.dtpDesde.Name = "dtpDesde";
             this.dtpDesde.Size = new System.Drawing.Size(139, 26);
             this.dtpDesde.TabIndex = 46;
+            this.dtpDesde.ValueChanged += new System.EventHandler(this.dtpDesde_ValueChanged);
             // 
             // btnBuscar
             // 
@@ -115,6 +118,7 @@
             this.dtpHasta.Name = "dtpHasta";
             this.dtpHasta.Size = new System.Drawing.Size(139, 26);
             this.dtpHasta.TabIndex = 59;
+            this.dtpHasta.ValueChanged += new System.EventHandler(this.dtpHasta_ValueChanged);
             // 
             // label2
             // 
@@ -128,7 +132,7 @@
             // 
             // btnAbrirCaja
             // 
-            this.btnAbrirCaja.Location = new System.Drawing.Point(639, 710);
+            this.btnAbrirCaja.Location = new System.Drawing.Point(499, 710);
             this.btnAbrirCaja.Margin = new System.Windows.Forms.Padding(4);
             this.btnAbrirCaja.Name = "btnAbrirCaja";
             this.btnAbrirCaja.Size = new System.Drawing.Size(115, 47);
@@ -150,7 +154,7 @@
             // 
             // btnCerrarCaja
             // 
-            this.btnCerrarCaja.Location = new System.Drawing.Point(950, 710);
+            this.btnCerrarCaja.Location = new System.Drawing.Point(945, 710);
             this.btnCerrarCaja.Margin = new System.Windows.Forms.Padding(4);
             this.btnCerrarCaja.Name = "btnCerrarCaja";
             this.btnCerrarCaja.Size = new System.Drawing.Size(115, 47);
@@ -159,11 +163,35 @@
             this.btnCerrarCaja.UseVisualStyleBackColor = true;
             this.btnCerrarCaja.Click += new System.EventHandler(this.btnCerrarCaja_Click);
             // 
+            // btnExportarPDF
+            // 
+            this.btnExportarPDF.Location = new System.Drawing.Point(1458, 113);
+            this.btnExportarPDF.Margin = new System.Windows.Forms.Padding(4);
+            this.btnExportarPDF.Name = "btnExportarPDF";
+            this.btnExportarPDF.Size = new System.Drawing.Size(115, 47);
+            this.btnExportarPDF.TabIndex = 63;
+            this.btnExportarPDF.Text = "Exportar a PDF";
+            this.btnExportarPDF.UseVisualStyleBackColor = true;
+            this.btnExportarPDF.Click += new System.EventHandler(this.btnExportarPDF_Click);
+            // 
+            // btnIngleso
+            // 
+            this.btnIngleso.Location = new System.Drawing.Point(647, 710);
+            this.btnIngleso.Margin = new System.Windows.Forms.Padding(4);
+            this.btnIngleso.Name = "btnIngleso";
+            this.btnIngleso.Size = new System.Drawing.Size(115, 47);
+            this.btnIngleso.TabIndex = 64;
+            this.btnIngleso.Text = "Ingreso";
+            this.btnIngleso.UseVisualStyleBackColor = true;
+            this.btnIngleso.Click += new System.EventHandler(this.btnIngleso_Click);
+            // 
             // frmCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1635, 845);
+            this.Controls.Add(this.btnIngleso);
+            this.Controls.Add(this.btnExportarPDF);
             this.Controls.Add(this.btnCerrarCaja);
             this.Controls.Add(this.btnEgreso);
             this.Controls.Add(this.btnAbrirCaja);
@@ -195,5 +223,7 @@
         private System.Windows.Forms.Button btnAbrirCaja;
         private System.Windows.Forms.Button btnEgreso;
         private System.Windows.Forms.Button btnCerrarCaja;
+        private System.Windows.Forms.Button btnExportarPDF;
+        private System.Windows.Forms.Button btnIngleso;
     }
 }

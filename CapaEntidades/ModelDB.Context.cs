@@ -216,6 +216,7 @@ namespace CapaEntidades
         public virtual DbSet<CajaMediosPagos> CajaMediosPagos { get; set; }
         public virtual DbSet<CajasDiarias> CajasDiarias { get; set; }
         public virtual DbSet<CajasEgresos> CajasEgresos { get; set; }
+        public virtual DbSet<CajasIngresos> CajasIngresos { get; set; }
     
         [DbFunction("SgPymeBaseEntities", "FnBuscarEstadosPorClienteId")]
         public virtual IQueryable<FnBuscarEstadosPorClienteId_Result> FnBuscarEstadosPorClienteId(Nullable<int> clienteCajaDistribucionServicioId)

@@ -41,7 +41,7 @@ namespace CapaNegocio
         }
 
         public CajasDiarias ObtenerUltimaCaja()
-        { 
+        {
             return db.CajasDiarias.OrderByDescending(c => c.FechaApertura).FirstOrDefault();
 
         }
@@ -64,7 +64,7 @@ namespace CapaNegocio
 
                 throw ex;
             }
-            
+
         }
 
         public ResultadoOperacion GuardarEgreso(CajasEgresos cajasEgresos)
@@ -91,6 +91,30 @@ namespace CapaNegocio
             return resultado;
         }
 
+        public ResultadoOperacion GuardarIngreso(CajasIngresos cajasIngreso)
+        {
+            ResultadoOperacion resultado = new ResultadoOperacion();
+
+            try
+            {
+                cajasIngreso.Fecha = DateTime.Now;
+                cajasIngreso.Usuario = 1;
+
+                db.CajasIngresos.Add(cajasIngreso);
+                db.SaveChanges();
+
+                resultado.EsExitoso = true;
+                resultado.Mensaje = "Ingreso guardado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                resultado.EsExitoso = false;
+                resultado.Mensaje = "Ocurrió un error al guardar: " + ex.Message;
+            }
+
+            return resultado;
+        }
+
         public ResultadoOperacion EditarMontoCajaDiaria(decimal montoTotal, decimal vuelto, int idCajaDiaria)
         {
             ResultadoOperacion resultado = new ResultadoOperacion();
@@ -99,30 +123,21 @@ namespace CapaNegocio
                 CajasDiarias getCaja = new CajasDiarias();
                 getCaja = db.CajasDiarias.FirstOrDefault(c => c.IdCajaDiaria == idCajaDiaria);
 
-                //List<CajasEgresos> getEgreso = db.CajasEgresos.Where(c => c.IdCajaDiaria == getCaja.IdCajaDiaria).ToList();
-
-                //decimal totalEgresos = 0;
-
-                //if (getEgreso != null)
-                //{
-                //    totalEgresos += getEgreso.Sum(c => c.Monto);
-                //}
-
                 if (getCaja != null)
                 {
-                    getCaja.MontoFinal = (getCaja.MontoFinal ?? getCaja.MontoInicial) + (montoTotal-vuelto);
+                    getCaja.MontoFinal = (getCaja.MontoFinal ?? getCaja.MontoInicial) + (montoTotal - vuelto);
 
                     db.SaveChanges();
                     resultado.EsExitoso = true;
                     resultado.Mensaje = "Edición guardado correctamente.";
                 }
-                else 
-                { 
-                    resultado.EsExitoso=false;
+                else
+                {
+                    resultado.EsExitoso = false;
                     resultado.Mensaje = "No se encontró la caja a editar";
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 resultado.EsExitoso = false;
                 resultado.Mensaje = "Ocurrió un error al editar caja: " + ex.Message;
@@ -138,7 +153,7 @@ namespace CapaNegocio
                 CajasDiarias getCaja = new CajasDiarias();
                 getCaja = db.CajasDiarias.OrderByDescending(c => c.IdCajaDiaria == cajaDiaria.IdCajaDiaria).FirstOrDefault();
 
-                
+
 
                 if (getCaja != null)
                 {
@@ -187,7 +202,10 @@ namespace CapaNegocio
         {
             try
             {
-                return db.CajasDiarias.ToList();
+                return db.CajasDiarias
+                    .OrderByDescending(c => c.FechaApertura)
+                    .ThenByDescending(c => c.IdCajaDiaria)
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -204,6 +222,8 @@ namespace CapaNegocio
                 DateTime fechaHasta = hasta.Date.AddDays(1);
                 return db.CajasDiarias
                     .Where(c => c.FechaApertura >= fechaDesde && c.FechaApertura < fechaHasta)
+                    .OrderByDescending(c => c.FechaApertura)
+                    .ThenByDescending(c => c.IdCajaDiaria)
                     .ToList();
             }
             catch
@@ -223,6 +243,35 @@ namespace CapaNegocio
             {
 
                 return new List<CajasEgresos>();
+            }
+        }
+
+        public List<CajasIngresos> ObtenerCajaIngresoPorFecha(DateTime fechaApertura)
+        {
+            try
+            {
+                DateTime desde = fechaApertura.Date;
+                DateTime hasta = fechaApertura.Date.AddDays(1);
+                return db.CajasIngresos
+               .Where(c => c.Fecha >= desde && c.Fecha < hasta)
+               .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<CajasIngresos> ObtenerCajasIngresosPorIdCaja(int idCajaDiaria)
+        {
+            try
+            {
+                return db.CajasIngresos.Where(c => c.IdCajaDiaria == idCajaDiaria).ToList();
+            }
+            catch (Exception)
+            {
+
+                return new List<CajasIngresos>();
             }
         }
     }

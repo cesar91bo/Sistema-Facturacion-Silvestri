@@ -19,6 +19,7 @@ namespace CapaEntidades
         {
             this.CajasEgresos = new HashSet<CajasEgresos>();
             this.CajaMediosPagos = new HashSet<CajaMediosPagos>();
+            this.CajasIngresos = new HashSet<CajasIngresos>();
         }
     
         public int IdCajaDiaria { get; set; }
@@ -35,5 +36,7 @@ namespace CapaEntidades
         public virtual ICollection<CajasEgresos> CajasEgresos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CajaMediosPagos> CajaMediosPagos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CajasIngresos> CajasIngresos { get; set; }
     }
 }

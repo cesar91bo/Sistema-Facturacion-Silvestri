@@ -179,6 +179,17 @@
           <Property Name="Motivo" Type="nvarchar" MaxLength="100" />
           <Property Name="Usuario" Type="int" />
         </EntityType>
+        <EntityType Name="CajasIngresos">
+          <Key>
+            <PropertyRef Name="IdCajaIngreso" />
+          </Key>
+          <Property Name="IdCajaIngreso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCajaDiaria" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Motivo" Type="nvarchar" MaxLength="100" />
+          <Property Name="Usuario" Type="int" />
+        </EntityType>
         <EntityType Name="CajasMovimientos">
           <Key>
             <PropertyRef Name="IdMovimientoCaja" />
@@ -3579,6 +3590,18 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CajasIngresos_CajasDiarias">
+          <End Role="CajasDiarias" Type="Self.CajasDiarias" Multiplicity="1" />
+          <End Role="CajasIngresos" Type="Self.CajasIngresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CajasDiarias">
+              <PropertyRef Name="IdCajaDiaria" />
+            </Principal>
+            <Dependent Role="CajasIngresos">
+              <PropertyRef Name="IdCajaDiaria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CajasMovimientos_CajasAperturas">
           <End Role="CajasAperturas" Type="Self.CajasAperturas" Multiplicity="1" />
           <End Role="CajasMovimientos" Type="Self.CajasMovimientos" Multiplicity="*" />
@@ -4704,6 +4727,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <EntitySet Name="CajasDiarias" EntityType="Self.CajasDiarias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CajasDistribuciones" EntityType="Self.CajasDistribuciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CajasEgresos" EntityType="Self.CajasEgresos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CajasIngresos" EntityType="Self.CajasIngresos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CajasMovimientos" EntityType="Self.CajasMovimientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CajasMovimientosDetalle" EntityType="Self.CajasMovimientosDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CancelacionFacturas" EntityType="Self.CancelacionFacturas" Schema="dbo" store:Type="Tables" />
@@ -6154,6 +6178,10 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <AssociationSet Name="FK_CajasEgresos_CajasDiarias" Association="Self.FK_CajasEgresos_CajasDiarias">
             <End Role="CajasDiarias" EntitySet="CajasDiarias" />
             <End Role="CajasEgresos" EntitySet="CajasEgresos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CajasIngresos_CajasDiarias" Association="Self.FK_CajasIngresos_CajasDiarias">
+            <End Role="CajasDiarias" EntitySet="CajasDiarias" />
+            <End Role="CajasIngresos" EntitySet="CajasIngresos" />
           </AssociationSet>
           <AssociationSet Name="FK_CajasMovimientos_CajasAperturas" Association="Self.FK_CajasMovimientos_CajasAperturas">
             <End Role="CajasAperturas" EntitySet="CajasAperturas" />
@@ -11267,6 +11295,11 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
             <End Role="TiposPagos" EntitySet="TiposPagos" />
             <End Role="CajaMediosPagos" EntitySet="CajaMediosPagos" />
           </AssociationSet>
+          <EntitySet Name="CajasIngresos" EntityType="SgPymeBaseModel.CajasIngresos" />
+          <AssociationSet Name="FK_CajasIngresos_CajasDiarias" Association="SgPymeBaseModel.FK_CajasIngresos_CajasDiarias">
+            <End Role="CajasDiarias" EntitySet="CajasDiarias" />
+            <End Role="CajasIngresos" EntitySet="CajasIngresos" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_ListaDeudores_Result">
           <Property Type="Int32" Name="NroCliente" Nullable="false" />
@@ -11733,6 +11766,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <NavigationProperty Name="CajasEgresos" Relationship="SgPymeBaseModel.FK_CajasEgresos_CajasDiarias" FromRole="CajasDiarias" ToRole="CajasEgresos" />
           <NavigationProperty Name="CajaMediosPagos" Relationship="SgPymeBaseModel.FK_CajaMediosPagos_CajasDiarias" FromRole="CajasDiarias" ToRole="CajaMediosPagos" />
           <Property Name="Observaciones" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CajasIngresos" Relationship="SgPymeBaseModel.FK_CajasIngresos_CajasDiarias" FromRole="CajasDiarias" ToRole="CajasIngresos" />
         </EntityType>
         <EntityType Name="CajasEgresos">
           <Key>
@@ -11779,6 +11813,30 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
             </Principal>
             <Dependent Role="CajaMediosPagos">
               <PropertyRef Name="IdTipoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CajasIngresos">
+          <Key>
+            <PropertyRef Name="IdCajaIngreso" />
+          </Key>
+          <Property Name="IdCajaIngreso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCajaDiaria" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Motivo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Usuario" Type="Int32" />
+          <NavigationProperty Name="CajasDiarias" Relationship="SgPymeBaseModel.FK_CajasIngresos_CajasDiarias" FromRole="CajasIngresos" ToRole="CajasDiarias" />
+        </EntityType>
+        <Association Name="FK_CajasIngresos_CajasDiarias">
+          <End Type="SgPymeBaseModel.CajasDiarias" Role="CajasDiarias" Multiplicity="1" />
+          <End Type="SgPymeBaseModel.CajasIngresos" Role="CajasIngresos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CajasDiarias">
+              <PropertyRef Name="IdCajaDiaria" />
+            </Principal>
+            <Dependent Role="CajasIngresos">
+              <PropertyRef Name="IdCajaDiaria" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14680,6 +14738,18 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdCajaDiaria" ColumnName="IdCajaDiaria" />
                 <ScalarProperty Name="IdCajaEgreso" ColumnName="IdCajaEgreso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CajasIngresos">
+            <EntityTypeMapping TypeName="SgPymeBaseModel.CajasIngresos">
+              <MappingFragment StoreEntitySet="CajasIngresos">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCajaDiaria" ColumnName="IdCajaDiaria" />
+                <ScalarProperty Name="IdCajaIngreso" ColumnName="IdCajaIngreso" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -294,6 +294,8 @@
         <AssociationConnector Association="SgPymeBaseModel.FK_CajasEgresos_CajasDiarias" />
         <AssociationConnector Association="SgPymeBaseModel.FK_CajaMediosPagos_CajasDiarias" />
         <AssociationConnector Association="SgPymeBaseModel.FK_CajaMediosPagos_TiposPagos" />
+        <EntityTypeShape EntityType="SgPymeBaseModel.CajasIngresos" Width="1.5" PointX="33.625" PointY="46.5" />
+        <AssociationConnector Association="SgPymeBaseModel.FK_CajasIngresos_CajasDiarias" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

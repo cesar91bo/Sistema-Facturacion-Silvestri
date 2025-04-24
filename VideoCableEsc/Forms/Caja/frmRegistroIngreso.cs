@@ -12,25 +12,25 @@ using System.Windows.Forms;
 
 namespace VideoCableEsc.Forms.Caja
 {
-    public partial class frmRegistroEgreso : Form
+    public partial class frmRegistroIngreso : Form
     {
         private CajaNegocio cajaNegocio = new CajaNegocio();
         private CajasDiarias CajaDiaria;
-        public frmRegistroEgreso()
+        public frmRegistroIngreso()
         {
             InitializeComponent();
         }
 
-        private void btnEgreso_Click(object sender, EventArgs e)
+        private void btnIngreso_Click(object sender, EventArgs e)
         {
             if (Validaciones())
             {
-                CajasEgresos cajasEgresos = new CajasEgresos();
-                cajasEgresos.Monto = Convert.ToDecimal(txtMonto.Text);
-                cajasEgresos.Motivo = txtMotivo.Text;
-                cajasEgresos.IdCajaDiaria = cajaNegocio.ObtenerCajaActual().IdCajaDiaria;
+                CajasIngresos cajasIngresos = new CajasIngresos();
+                cajasIngresos.Monto = Convert.ToDecimal(txtMonto.Text);
+                cajasIngresos.Motivo = txtMotivo.Text;
+                cajasIngresos.IdCajaDiaria = cajaNegocio.ObtenerCajaActual().IdCajaDiaria;
 
-                var resultado = cajaNegocio.GuardarEgreso(cajasEgresos);
+                var resultado = cajaNegocio.GuardarIngreso(cajasIngresos);
 
                 if (resultado.EsExitoso)
                 {
@@ -93,27 +93,19 @@ namespace VideoCableEsc.Forms.Caja
                     return false;
                 }
             }
-            decimal montoCaja = CajaDiaria.MontoFinal ?? CajaDiaria.MontoInicial;
-            if (CajaDiaria != null && montoCaja < Convert.ToDecimal(txtMonto.Text))
+
+            decimal totalIngreso = Convert.ToDecimal(txtMonto.Text);
+            var resultado = cajaNegocio.EditarMontoCajaDiaria(totalIngreso, 0, CajaDiaria.IdCajaDiaria);
+            if (resultado.EsExitoso == false)
             {
-                MessageBox.Show("El monto de egreso supera el monto actual de la caja.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                MessageBox.Show(resultado.Mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else 
-            {
-                //Envío en negativo para descontar la caja final
-                decimal totalEgreso = Convert.ToDecimal(txtMonto.Text);
-                var resultado = cajaNegocio.EditarMontoCajaDiaria(-totalEgreso, 0, CajaDiaria.IdCajaDiaria);
-                if (resultado.EsExitoso == false) 
-                {
-                    MessageBox.Show(resultado.Mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+
 
             return true;
         }
 
-        private void txtMontoSistema_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtMonto_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
@@ -126,5 +118,6 @@ namespace VideoCableEsc.Forms.Caja
                 e.Handled = true;
             }
         }
+
     }
 }
