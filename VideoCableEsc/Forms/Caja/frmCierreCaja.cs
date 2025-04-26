@@ -50,7 +50,7 @@ namespace VideoCableEsc.Forms.Caja
                 txtMontoIngresos.Text = montoIngreso.ToString("N2");
             }
 
-            txtMontoSistema.Text = cajaDiaria.MontoFinal.Value.ToString("N2");
+            txtMontoSistema.Text = (cajaDiaria.MontoFinal ?? cajaDiaria.MontoInicial).ToString("N2");
         }
 
         private void BuscarCaja()

@@ -31,32 +31,49 @@ namespace VideoCableEsc.Forms.Caja
 
         private void btnAbrirCaja_Click(object sender, EventArgs e)
         {
+            if (Validaciones())
+            {
+                CajasDiarias caja = new CajasDiarias
+                {
+                    FechaApertura = DateTime.Now,
+                    MontoInicial = Convert.ToDecimal(txtMontoInicial.Text),
+                    UsuarioApertura = 1,
+                    Estado = "Abierto"
+                };
+
+                bool apertura = cajaNegocio.NuevaCajaDiaria(caja);
+
+                if (apertura)
+                {
+                    MessageBox.Show("La caja fue abierta correctamente.");
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo abrir la caja. Intente nuevamente.", "ERROR CAJA", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                this.Close();
+            }
+        }
+
+        private bool Validaciones()
+        {
             if (string.IsNullOrWhiteSpace(txtMontoInicial.Text))
             {
                 MessageBox.Show("Debe ingresar un monto inicial para abrir la caja.", "Campo requerido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMontoInicial.Focus();
-                return;
+                return false;
             }
 
-            CajasDiarias caja = new CajasDiarias
-            {
-                FechaApertura = DateTime.Now,
-                MontoInicial = Convert.ToDecimal(txtMontoInicial.Text),
-                UsuarioApertura = 1,
-                Estado = "Abierto"
-            };
+            var ultimaCaja = cajaNegocio.ObtenerUltimaCaja();
 
-            bool apertura = cajaNegocio.NuevaCajaDiaria(caja);
+            if (ultimaCaja != null && ultimaCaja.FechaCierre == null)
+            {
+                MessageBox.Show("No se puede abrir una nueva caja mientras la anterior esté abierta.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return false;
+            }
 
-            if (apertura)
-            {
-                MessageBox.Show("La caja fue abierta correctamente.");
-            }
-            else
-            {
-                MessageBox.Show("No se pudo abrir la caja. Intente nuevamente.", "ERROR CAJA", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            this.Close();
+            return true;
         }
     }
 }
