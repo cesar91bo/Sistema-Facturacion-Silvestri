@@ -113,7 +113,7 @@ namespace SistGestionEsc
                 {
                     auth.Token = autenticacion.Token;
                     auth.Sign = autenticacion.Sign;
-                }
+                }                
 
                 auth.Cuit = Convert.ToInt64(Emp.CUIT.Replace("-", ""));
 
@@ -189,8 +189,12 @@ namespace SistGestionEsc
                     var fedetreq = new FECAEDetRequest();
                     if (listcbteasoc.Count > 0) fedetreq.CbtesAsoc = listcbteasoc.ToArray();
 
+                    var condicionesIva = ws.FEParamGetTiposIva(auth);
+
+
                     fedetreq.Concepto = Factura.IdConceptoFactura;
-                    fedetreq.CondicionIVAReceptorId = 1;
+                    fedetreq.CondicionIVAReceptorId = 5;
+
                     var clienteN = new ClienteNegocio();
                     VistaClientes Cliente = clienteN.ObtenerVCliporNroCli(Factura.ClientesCajasDistribucionesServicios.ClienteCajaDistribucionServicioId);
 
@@ -256,6 +260,7 @@ namespace SistGestionEsc
 
                     fedetreq.ImpTotal = Convert.ToDouble(Factura.Total);
                     fedetreq.ImpTotConc = 0;
+                   
                     switch (fecabreq.CbteTipo)
                     {
                         case 1:
@@ -308,16 +313,19 @@ namespace SistGestionEsc
                         double totaliva21 = 0, totaliva105 = 0, totalnogravado = 0, totalnetogravado = 0, netogravado, importeiva21 = 0, importeiva105 = 0;
                         if (TotalesFactB.IVA21 != 0)
                         {
+                            double tasaIva = 0.21;
+                            double divisorIva = 1.21;
+
                             ListDetFact = ventaN.ObtenerFacturaVentaDetallexTipoIvayNroFact(Factura.IdFacturaVenta, 1);
                             foreach (FacturasVentaDetalle f in ListDetFact) totaliva21 = totaliva21 + Convert.ToDouble(f.TotalArt);
 
                             var iva = new AlicIva();
                             double montodescuento = totaliva21 * (Convert.ToDouble(Factura.Descuento) / 100);
-                            netogravado = (totaliva21 - montodescuento) / Convert.ToDouble("1,21");
+                            netogravado = (totaliva21 - montodescuento) / divisorIva;
                             iva.BaseImp = Math.Round(netogravado, 2);
                             iva.Id = 5;
                             //iva.Importe = Math.Round((total - iva.BaseImp - Convert.ToDouble(Factura.TotalDescuento)), 2, MidpointRounding.AwayFromZero);
-                            iva.Importe = Math.Round(iva.BaseImp * Convert.ToDouble("0,21"), 2);
+                            iva.Importe = Math.Round(iva.BaseImp * tasaIva, 2);
                             listiva.Add(iva);
                             importeiva21 = iva.Importe;
                             totalnetogravado = netogravado;
@@ -350,11 +358,13 @@ namespace SistGestionEsc
                             totalnogravado = total - montodescuento;
                         }
 
-                        
 
                         fedetreq.ImpTotConc = Math.Round(totalnogravado, 2);
                         fedetreq.ImpNeto = Math.Round(totalnetogravado, 2);
-                        fedetreq.ImpIVA = Math.Round(importeiva105 + importeiva21, 2);                 
+                        fedetreq.ImpIVA = Math.Round(importeiva105 + importeiva21, 2);
+                        
+                        //fedetreq.ImpNeto = Convert.ToDouble(LibroIva.NetoGravado);
+                        //fedetreq.ImpIVA = Math.Round(Convert.ToDouble(LibroIva.Iva105) + Convert.ToDouble(LibroIva.Iva21), 2, MidpointRounding.AwayFromZero);
                     }
 
                     if (listiva.Count > 0)
@@ -375,7 +385,7 @@ namespace SistGestionEsc
                         fedetreq.ImpTotal = Math.Round(fedetreq.ImpNeto * 1.21, 2);
                         fedetreq.ImpIVA = Math.Round(fedetreq.ImpTotal - fedetreq.ImpNeto, 2);
                         fedetreq.ImpOpEx = 0;
-
+                        fedetreq.CondicionIVAReceptorId = 5;
 
                         var iva = new AlicIva { BaseImp = Math.Round((fedetreq.ImpTotal/(1+21/100)/1.21), 2), Id = 5, Importe = fedetreq.ImpIVA };
                         listiva.Add(iva);
@@ -391,6 +401,8 @@ namespace SistGestionEsc
                 }
 
                 var detalle = ListDetalle.ToArray();
+
+
                 var FECAERequest = new FECAERequest { FeCabReq = fecabreq, FeDetReq = detalle };
                 var Autorizacion = new FECAEResponse();
 
@@ -403,12 +415,12 @@ namespace SistGestionEsc
 
                 //MessageBox.Show(Autorizacion.FeCabResp.Resultado);
 
-                foreach (FECAEDetResponse res in Autorizacion.FeDetResp.ToList())
-                {
-                    MessageBox.Show(res.Resultado);
-                    if (res.Observaciones == null) continue;
-                    foreach (Obs obs in res.Observaciones) MessageBox.Show(obs.Msg);
-                }
+                //foreach (FECAEDetResponse res in Autorizacion.FeDetResp.ToList())
+                //{
+                //    MessageBox.Show(res.Resultado);
+                //    if (res.Observaciones == null) continue;
+                //    foreach (Obs obs in res.Observaciones) MessageBox.Show(obs.Msg);
+                //}
 
                 if (Autorizacion.Errors != null)
                     foreach (Err r in Autorizacion.Errors.ToList())
