@@ -385,7 +385,7 @@ namespace SistGestionEsc
                         fedetreq.ImpTotal = Math.Round(fedetreq.ImpNeto * 1.21, 2);
                         fedetreq.ImpIVA = Math.Round(fedetreq.ImpTotal - fedetreq.ImpNeto, 2);
                         fedetreq.ImpOpEx = 0;
-                        fedetreq.CondicionIVAReceptorId = 5;
+                        fedetreq.CondicionIVAReceptorId = 1;
 
                         var iva = new AlicIva { BaseImp = Math.Round((fedetreq.ImpTotal/(1+21/100)/1.21), 2), Id = 5, Importe = fedetreq.ImpIVA };
                         listiva.Add(iva);
