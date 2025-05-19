@@ -1093,6 +1093,7 @@
           <Property Name="LapsoTiempoBloqueo" Type="int" />
           <Property Name="PermitirFacturar" Type="bit" Nullable="false" />
           <Property Name="UltimaHoraZ" Type="datetime" />
+          <Property Name="ToleranciaDiferencia" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="SubRubros">
           <Key>
@@ -7631,6 +7632,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <Property Name="LapsoTiempoBloqueo" Type="Int32" />
           <Property Name="PermitirFacturar" Type="Boolean" Nullable="false" />
           <Property Name="UltimaHoraZ" Type="DateTime" Precision="3" />
+          <Property Name="ToleranciaDiferencia" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="SubRubros">
           <Key>
@@ -12812,6 +12814,7 @@ advertencia 6002: La tabla o vista 'SgPymeBase.dbo.VistaVendedoresFactVta' no ti
           <EntitySetMapping Name="Seteos">
             <EntityTypeMapping TypeName="SgPymeBaseModel.Seteos">
               <MappingFragment StoreEntitySet="Seteos">
+                <ScalarProperty Name="ToleranciaDiferencia" ColumnName="ToleranciaDiferencia" />
                 <ScalarProperty Name="IdSeteo" ColumnName="IdSeteo" />
                 <ScalarProperty Name="UsarCF" ColumnName="UsarCF" />
                 <ScalarProperty Name="DiasVtoFact" ColumnName="DiasVtoFact" />

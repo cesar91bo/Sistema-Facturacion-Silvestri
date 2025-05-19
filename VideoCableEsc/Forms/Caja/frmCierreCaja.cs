@@ -17,6 +17,8 @@ namespace VideoCableEsc.Forms.Caja
         private CajaNegocio cajaNegocio = new CajaNegocio();
         private CajasDiarias cajaDiaria = null;
         private FacturasVentaNegocio facturasVentaN = new FacturasVentaNegocio();
+        private AuxiliaresNegocio auxiliaresNegocio = new AuxiliaresNegocio();
+        private Seteos seteos = new Seteos();
         public frmCierreCaja()
         {
             InitializeComponent();
@@ -51,6 +53,13 @@ namespace VideoCableEsc.Forms.Caja
             }
 
             txtMontoSistema.Text = (cajaDiaria.MontoFinal ?? cajaDiaria.MontoInicial).ToString("N2");
+
+            seteos = auxiliaresNegocio.ObtenerSeteos();
+
+            if (seteos != null)
+            {
+                txtTolerancia.Text = (seteos.ToleranciaDiferencia ?? 0).ToString();
+            }
         }
 
         private void BuscarCaja()
@@ -133,13 +142,29 @@ namespace VideoCableEsc.Forms.Caja
             {
                 cajaDiaria.MontoFinal = cajaDiaria.MontoInicial;
             }
+
+            // Seteos
+            if (seteos.ToleranciaDiferencia != Convert.ToDecimal(txtTolerancia.Text))
+            {
+                seteos.ToleranciaDiferencia = Convert.ToDecimal(txtTolerancia.Text);
+                auxiliaresNegocio.ActualizarSeteos(seteos);
+            }
+
+
             decimal montoFinalUsuario = Math.Round(Convert.ToDecimal(txtMontoFinal.Text), 2);
-            if (cajaDiaria.MontoFinal != montoFinalUsuario && txtObservaciones.Text == "")
+            decimal montoSistema = Math.Round(cajaDiaria.MontoFinal ?? 0, 2);
+            decimal tolerancia = seteos.ToleranciaDiferencia ?? 0;
+            decimal diferencia = Math.Abs(montoFinalUsuario - montoSistema);
+
+            if (diferencia > tolerancia && string.IsNullOrWhiteSpace(txtObservaciones.Text))
             {
                 error.SetError(txtObservaciones, "Monto final distinto al sistema. Justifique en observaciones.");
                 txtObservaciones.Focus();
                 return false;
             }
+
+
+
             return true;
         }
 
@@ -155,6 +180,33 @@ namespace VideoCableEsc.Forms.Caja
             {
                 e.Handled = true;
             }
+        }
+
+        private void txtTolerancia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Permitir control keys (ej: Backspace)
+            if (char.IsControl(e.KeyChar))
+            {
+                return;
+            }
+
+            // Permitir solo números
+            if (char.IsDigit(e.KeyChar))
+            {
+                return;
+            }
+
+            // Permitir solo un separador decimal (coma o punto)
+            if ((e.KeyChar == '.') &&
+                !textBox.Text.Contains("."))
+            {
+                return;
+            }
+
+            // Cualquier otra tecla se bloquea
+            e.Handled = true;
         }
     }
 }

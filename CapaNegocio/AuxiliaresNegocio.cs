@@ -128,5 +128,24 @@ namespace CapaNegocio
             }
         }
 
+        public Seteos ObtenerSeteos()
+        {
+            return db.Seteos.OrderByDescending(s => s.IdSeteo).FirstOrDefault();
+        }
+
+        public void ActualizarSeteos(Seteos seteos)
+        {
+            var seteoExistente = db.Seteos.Find(seteos.IdSeteo);
+            if (seteoExistente != null)
+            {
+                seteoExistente.ToleranciaDiferencia = seteos.ToleranciaDiferencia;
+                db.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Seteo no encontrado.");
+            }
+        }
+
     }
 }

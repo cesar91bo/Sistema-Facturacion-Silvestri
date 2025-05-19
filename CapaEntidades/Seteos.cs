@@ -54,5 +54,6 @@ namespace CapaEntidades
         public Nullable<int> LapsoTiempoBloqueo { get; set; }
         public bool PermitirFacturar { get; set; }
         public Nullable<System.DateTime> UltimaHoraZ { get; set; }
+        public Nullable<decimal> ToleranciaDiferencia { get; set; }
     }
 }
